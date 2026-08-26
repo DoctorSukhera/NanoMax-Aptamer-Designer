@@ -1,7 +1,7 @@
 # 🧬 NanoMax Aptamer Inverse Folding Model
 
 <p align="center">
-  <img src="assets/hitsz-logo.jpg" alt="Harbin Institute of Technology, Shenzhen" width="300">
+  <img src="hitsz-logo.jpg" alt="Harbin Institute of Technology, Shenzhen" width="300">
 </p>
 
 <p align="center">
