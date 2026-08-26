@@ -256,7 +256,7 @@ st.markdown(
 # ---------------- Sidebar ----------------
 with st.sidebar:
     if LOGO_PATH.exists():
-        logo_left, logo_mid, logo_right = st.columns([0.08, 0.84, 0.08])
+        logo_left, logo_mid, logo_right = st.columns([0.16, 0.68, 0.16])
         with logo_mid:
             st.image(str(LOGO_PATH), use_container_width=True)
 
