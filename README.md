@@ -1,10 +1,6 @@
 # 🧬 NanoMax Aptamer Inverse Folding Model
 
 <p align="center">
-  <img src="hitsz-logo.jpg" alt="Harbin Institute of Technology, Shenzhen" width="300">
-</p>
-
-<p align="center">
   <img src="hitsz-logo.jpg" width="360">
 </p>
 
@@ -37,7 +33,7 @@ The generated candidate is then characterized using sequence composition, base-p
 ## NanoMax inverse-design workflow
 
 <p align="center">
-  <img src="nanomax_workflow.png" alt="NanoMax inverse design workflow" width="100%">
+  <img src="nanomax_workflow.png" width="100%">
 </p>
 
 The broader project workflow connects desired asymmetric structural features with target secondary-structure generation, candidate sequence generation, structural analysis and subsequent nanomaterial-design concepts.
@@ -45,7 +41,7 @@ The broader project workflow connects desired asymmetric structural features wit
 ## Secondary-structure asymmetry quantification
 
 <p align="center">
-  <img src="nanomax_asymmetry_index.png" alt="Secondary structure asymmetry index" width="100%">
+  <img src="nanomax_asymmetry_index.png" width="100%">
 </p>
 
 The secondary-structure asymmetry framework uses a mirror comparison of the dot-bracket representation. The structure is divided into two halves, the right half is reversed, and positional agreement is compared to derive symmetry and asymmetry percentages.
@@ -53,7 +49,7 @@ The secondary-structure asymmetry framework uses a mirror comparison of the dot-
 ## Three-dimensional nanomaterial asymmetry concept
 
 <p align="center">
-  <img src="assets/nanoparticle_3d_asymmetry.png" alt="Three-dimensional nanoparticle asymmetry framework" width="100%">
+  <img src="nanoparticle_3d_asymmetry.png" width="100%">
 </p>
 
 The project also explores a geometric route for quantifying asymmetry in three-dimensional gold nanoparticle morphologies. The conceptual workflow uses the **center of mass**, **inertia tensor/principal axes**, a reference symmetry plane and a mirrored surface-mismatch comparison.
