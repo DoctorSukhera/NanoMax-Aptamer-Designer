@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <img src="hitsz-logo.jpg" width="360">
+</p>
+
+<p align="center">
   <b>Interactive computational inverse design of asymmetric DNA aptamer candidates</b>
 </p>
 
@@ -33,7 +37,7 @@ The generated candidate is then characterized using sequence composition, base-p
 ## NanoMax inverse-design workflow
 
 <p align="center">
-  <img src="assets/nanomax_workflow.png" alt="NanoMax inverse design workflow" width="100%">
+  <img src="nanomax_workflow.png" alt="NanoMax inverse design workflow" width="100%">
 </p>
 
 The broader project workflow connects desired asymmetric structural features with target secondary-structure generation, candidate sequence generation, structural analysis and subsequent nanomaterial-design concepts.
@@ -41,7 +45,7 @@ The broader project workflow connects desired asymmetric structural features wit
 ## Secondary-structure asymmetry quantification
 
 <p align="center">
-  <img src="assets/nanomax_asymmetry_index.png" alt="Secondary structure asymmetry index" width="100%">
+  <img src="nanomax_asymmetry_index.png" alt="Secondary structure asymmetry index" width="100%">
 </p>
 
 The secondary-structure asymmetry framework uses a mirror comparison of the dot-bracket representation. The structure is divided into two halves, the right half is reversed, and positional agreement is compared to derive symmetry and asymmetry percentages.
