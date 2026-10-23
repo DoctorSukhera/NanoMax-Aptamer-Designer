@@ -12,15 +12,13 @@ from nanomax_model import AsymmetricDNAAptamerDesigner
 
 APP_DIR = Path(__file__).resolve().parent
 
-
 def resolve_asset(*names: str) -> Path:
-    """Find an asset in the repository root or /assets."""
+    """Find an asset whether it is stored in the repository root or /assets."""
     for name in names:
         for candidate in (APP_DIR / name, APP_DIR / "assets" / name):
             if candidate.exists():
                 return candidate
     return APP_DIR / names[0]
-
 
 LOGO_PATH = resolve_asset("hitsz-logo-transparent.png", "hitsz-logo.jpg")
 ASYMMETRY_FIG = resolve_asset("nanomax_asymmetry_index.png")
@@ -35,554 +33,384 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-
-# ---------------------------------------------------------------------
-# Premium compact scientific UI
-# ---------------------------------------------------------------------
+# Light, scientific interface styling.
 st.markdown(
     """
     <style>
-    :root{
-        --navy:#0a2342;
-        --navy2:#153957;
-        --teal:#0d7f87;
-        --teal2:#0b6472;
-        --cyan:#1aa8bd;
-        --gold:#c9922e;
-        --gold2:#dfad4f;
-        --purple:#6e4bd8;
-        --green:#2f907d;
-        --ink:#10233d;
-        --muted:#64748b;
-        --line:#dbe5eb;
-        --panel:#ffffff;
-        --soft:#f7fafc;
-        --pearl:#fbfcfd;
+    :root {
+        --navy: #0B1F33;
+        --navy2: #16324A;
+        --teal: #0F6F78;
+        --teal-soft: #EAF4F4;
+        --gold: #B7924A;
+        --gold-soft: #F5EFE2;
+        --ivory: #F8F7F3;
+        --panel: #FFFFFF;
+        --line: rgba(11,31,51,.12);
+        --muted: #667085;
+        --text: #152235;
     }
 
     html, body { color-scheme: light; }
 
-    .stApp{
+    .stApp {
         background:
-          radial-gradient(circle at 9% 5%, rgba(13,127,135,.045), transparent 19%),
-          radial-gradient(circle at 91% 7%, rgba(201,146,46,.055), transparent 18%),
-          linear-gradient(180deg,#fbfdff 0%,#f5f8fb 100%);
-        color:var(--ink);
+            radial-gradient(circle at 12% 8%, rgba(15,111,120,.045), transparent 24%),
+            radial-gradient(circle at 88% 3%, rgba(183,146,74,.055), transparent 22%),
+            linear-gradient(180deg, #FCFBF8 0%, #F7F8F8 58%, #F1F4F6 100%);
+        color: var(--text);
     }
 
-    /* Main canvas - intentionally compact for one-screen demo */
-    .block-container{
-        max-width:1600px;
-        padding-top:.45rem !important;
-        padding-left:1rem !important;
-        padding-right:1rem !important;
-        padding-bottom:.35rem !important;
+    .stApp p, .stApp span, .stApp label, .stApp li,
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+        color: var(--text);
     }
 
-    /* Sidebar */
-    [data-testid="stSidebar"]{
-        min-width:300px !important;
-        max-width:300px !important;
-        background:linear-gradient(180deg,#ffffff 0%,#f7fafc 100%);
-        border-right:1px solid #e1e8ed;
-        box-shadow:8px 0 28px rgba(15,35,60,.035);
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #FBFAF7 0%, #F2F4F5 100%);
+        border-right: 1px solid rgba(11,31,51,.10);
+        box-shadow: 8px 0 28px rgba(11,31,51,.025);
     }
-    [data-testid="stSidebar"] > div:first-child{
-        padding:.55rem 1rem .55rem 1rem !important;
-    }
-    [data-testid="stSidebar"] img{
-        background:transparent !important;
-        box-shadow:none !important;
-        border:none !important;
-        object-fit:contain;
-    }
-    [data-testid="stSidebar"] h3{
-        margin:.25rem 0 .65rem 0 !important;
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy) !important;
-        font-size:1.12rem !important;
-    }
-    [data-testid="stSidebar"] label,
+
     [data-testid="stSidebar"] p,
-    [data-testid="stSidebar"] span{
-        color:#18324d !important;
+    [data-testid="stSidebar"] span,
+    [data-testid="stSidebar"] label,
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] h4 {
+        color: #182638 !important;
     }
 
-    .brand-block{
-        text-align:center;
-        margin:-.25rem 0 .55rem 0;
-        padding-bottom:.5rem;
-        border-bottom:1px solid #e7edf1;
-    }
-    .brand-main{
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy);
-        font-weight:800;
-        letter-spacing:.07em;
-        font-size:.85rem;
-    }
-    .brand-sub{
-        margin-top:.1rem;
-        color:#728196;
-        text-transform:uppercase;
-        font-weight:650;
-        letter-spacing:.17em;
-        font-size:.60rem;
+    [data-testid="stSidebar"] img {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        object-fit: contain;
     }
 
-    /* Sliders */
-    div[data-baseweb="slider"] [role="slider"]{
-        background:#0d7f87 !important;
-        border-color:#0d7f87 !important;
-        box-shadow:0 0 0 2px rgba(13,127,135,.08) !important;
-    }
-    div[data-baseweb="slider"] div[style*="background"]{
-        border-radius:999px !important;
+    .block-container {
+        max-width: 1380px;
+        padding-top: 1.5rem;
+        padding-bottom: 4rem;
     }
 
-    /* Compact sidebar widgets */
-    [data-testid="stSidebar"] .stSlider{
-        padding-bottom:.16rem !important;
-    }
-    [data-testid="stSidebar"] [data-testid="stExpander"]{
-        border:1px solid #dce5eb !important;
-        border-radius:11px !important;
-        background:#fff !important;
-        box-shadow:none !important;
-        margin-top:.2rem !important;
-    }
-
-    /* Primary button */
-    .stButton > button[kind="primary"]{
-        border:0 !important;
-        min-height:2.72rem !important;
-        border-radius:10px !important;
-        background:linear-gradient(100deg,#0d8f99 0%,#0b3156 100%) !important;
-        color:#fff !important;
-        font-weight:750 !important;
-        box-shadow:0 7px 18px rgba(11,49,86,.16);
-    }
-    .stButton > button[kind="primary"]:hover{
-        transform:translateY(-1px);
-        box-shadow:0 10px 22px rgba(11,49,86,.21);
-    }
-    .stButton > button:not([kind="primary"]){
-        min-height:2.45rem !important;
-        border-radius:10px !important;
-        border-color:#dce5eb !important;
-        background:#fff !important;
-        color:#1f3650 !important;
-    }
-
-    .credit-card{
-        border:1px solid #dce5eb;
-        border-top:3px solid var(--gold);
-        border-radius:14px;
-        padding:.72rem .82rem;
-        margin-top:.68rem;
-        background:linear-gradient(145deg,#fff,#f8fafc);
-        box-shadow:0 8px 20px rgba(18,42,68,.045);
-        line-height:1.42;
-    }
-    .credit-card b{color:var(--navy) !important;}
-    .credit-card .small{
-        color:#7a8797 !important;
-        font-size:.71rem;
-    }
-
-    /* Hero */
-    .hero-shell{
-        position:relative;
-        overflow:hidden;
-        border-radius:19px;
-        border:1px solid #d8e4e9;
-        padding:.88rem 1.7rem .82rem 1.7rem;
-        margin-bottom:.36rem;
-        min-height:130px;
+    .hero-shell {
+        position: relative;
+        overflow: hidden;
+        padding: 2.1rem 2.2rem;
+        margin-bottom: 1.25rem;
+        border-radius: 24px;
+        border: 1px solid rgba(11,31,51,.10);
         background:
-          radial-gradient(circle at 91% 15%,rgba(13,127,135,.08),transparent 23%),
-          radial-gradient(circle at 99% 92%,rgba(201,146,46,.065),transparent 18%),
-          linear-gradient(110deg,#fff 0%,#f8fcfd 64%,#edf7f9 100%);
-        box-shadow:0 12px 30px rgba(18,42,68,.07);
-    }
-    .hero-shell::before{
-        content:"🧬";
-        position:absolute;
-        right:2.2rem;
-        top:-2.1rem;
-        font-size:9.5rem;
-        opacity:.035;
-        transform:rotate(-16deg);
-        filter:grayscale(1);
-    }
-    .hero-shell::after{
-        content:"";
-        position:absolute;
-        width:72px;
-        height:2px;
-        left:17.5rem;
-        top:1.15rem;
-        background:linear-gradient(90deg,var(--gold),rgba(201,146,46,.05));
-    }
-    .eyebrow{
-        position:relative;
-        z-index:2;
-        color:var(--teal2) !important;
-        text-transform:uppercase;
-        letter-spacing:.19em;
-        font-size:.65rem;
-        font-weight:800;
-        margin-bottom:.26rem;
-    }
-    .hero-title{
-        position:relative;
-        z-index:2;
-        margin:0;
-        color:var(--navy) !important;
-        font-family:Georgia,"Times New Roman",serif;
-        font-weight:750;
-        letter-spacing:-.025em;
-        line-height:1;
-        font-size:clamp(1.85rem,2.65vw,2.95rem);
-        white-space:nowrap;
-    }
-    .hero-sub{
-        position:relative;
-        z-index:2;
-        margin:.38rem 0 0 0;
-        max-width:920px;
-        color:#53657b !important;
-        font-size:.82rem;
-        line-height:1.38;
-    }
-    .chip-row{
-        position:relative;
-        z-index:2;
-        margin-top:.53rem;
-        display:flex;
-        gap:.38rem;
-        flex-wrap:wrap;
-    }
-    .chip{
-        display:inline-block;
-        padding:.22rem .60rem;
-        border-radius:999px;
-        border:1px solid #d5e5e8;
-        background:linear-gradient(180deg,#f4fbfb,#ebf6f6);
-        color:#0b6370 !important;
-        font-size:.67rem;
-        font-weight:650;
+            radial-gradient(circle at 92% 0%, rgba(183,146,74,.075), transparent 26%),
+            linear-gradient(120deg, rgba(255,255,255,.995), rgba(242,247,248,.985));
+        box-shadow:
+            0 22px 55px rgba(11,31,51,.085),
+            inset 0 1px 0 rgba(255,255,255,.92);
     }
 
-    @media(max-width:1100px){
-        .hero-title{white-space:normal;font-size:2rem;}
-        .hero-shell::after{display:none;}
+    .hero-shell::after {
+        content: "";
+        position: absolute;
+        width: 230px;
+        height: 230px;
+        right: -82px;
+        top: -116px;
+        border-radius: 50%;
+        border: 1px solid rgba(15,111,120,.13);
+        box-shadow: 0 0 80px rgba(15,111,120,.04);
     }
 
-    /* Streamlit tabs */
-    .stTabs [data-baseweb="tab-list"]{
-        gap:.25rem;
-        border-bottom:1px solid #dce5eb;
-        min-height:2.15rem;
-    }
-    .stTabs [data-baseweb="tab"]{
-        height:2.05rem;
-        padding:.2rem .58rem;
-        font-size:.76rem;
-        color:#213a55;
-    }
-    .stTabs [aria-selected="true"]{
-        color:#0d6876 !important;
-        font-weight:750 !important;
+    .eyebrow {
+        color: var(--teal) !important;
+        text-transform: uppercase;
+        letter-spacing: .19em;
+        font-size: .75rem;
+        font-weight: 760;
+        margin-bottom: .58rem;
     }
 
-    /* Main output panel */
-    .output-head{
-        display:flex;
-        align-items:center;
-        gap:.55rem;
-        margin:.08rem 0 .18rem 0;
-    }
-    .output-icon{
-        font-size:1.45rem;
-        color:var(--teal);
-    }
-    .output-title{
-        margin:0;
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy) !important;
-        font-size:1.42rem;
-        font-weight:750;
-    }
-    .output-caption{
-        color:#718094 !important;
-        font-size:.69rem;
-        margin:0 0 .38rem 2rem;
-    }
-    .seq-label{
-        color:#18324d !important;
-        font-size:.72rem;
-        font-weight:750;
-        margin-bottom:.18rem;
-    }
-    .seq-box{
-        width:100%;
-        height:38px;
-        padding:.58rem .72rem;
-        border-radius:9px;
-        border:1px solid #d9e3e8;
-        background:#f8fafc;
-        color:#233d5a !important;
-        font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
-        font-size:.71rem;
-        line-height:1.1;
-        overflow:hidden;
-        white-space:nowrap;
-        text-overflow:ellipsis;
-        box-shadow:inset 0 1px 1px rgba(20,45,70,.025);
+    .hero-title {
+        margin: 0;
+        font-size: clamp(2.0rem, 3.25vw, 3.45rem);
+        line-height: 1.04;
+        font-weight: 790;
+        letter-spacing: -.035em;
+        white-space: nowrap;
+        background: linear-gradient(90deg, #0B1F33 0%, #173A4F 48%, #0F6F78 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .metric-card{
-        height:84px;
-        border:1px solid #dce6ec;
-        border-top:2px solid var(--metric-accent,#0d7f87);
-        border-radius:12px;
-        padding:.58rem .72rem;
-        background:linear-gradient(180deg,#fff,#fbfcfd);
-        box-shadow:0 7px 18px rgba(18,42,68,.045);
-    }
-    .metric-row{
-        display:flex;
-        align-items:center;
-        gap:.40rem;
-    }
-    .metric-icon{
-        font-size:1.12rem;
-        color:var(--metric-accent,#0d7f87) !important;
-    }
-    .metric-label{
-        color:#52657b !important;
-        font-size:.66rem;
-        font-weight:700;
-    }
-    .metric-value{
-        margin-top:.16rem;
-        color:var(--metric-accent,#0a2342) !important;
-        font-family:Georgia,"Times New Roman",serif;
-        font-size:1.55rem;
-        line-height:1;
-        font-weight:760;
+    @media (max-width: 900px) {
+        .hero-title {white-space: normal; font-size: 2.15rem;}
     }
 
-    /* Visual sub-navigation strip */
-    .analysis-strip{
-        display:flex;
-        gap:1.05rem;
-        align-items:center;
-        margin:.35rem 0 .22rem 0;
-        padding:0 .12rem .26rem .12rem;
-        border-bottom:1px solid #dce5eb;
-        font-size:.70rem;
-        color:#496078;
-    }
-    .analysis-strip span:first-child{
-        color:#0d6876 !important;
-        font-weight:800;
-        border-bottom:2px solid #0d7f87;
-        padding-bottom:.24rem;
+    .hero-sub {
+        margin-top: .95rem;
+        color: #526173 !important;
+        font-size: 1.04rem;
+        max-width: 870px;
+        line-height: 1.55;
     }
 
-    /* Chart cards */
-    .chart-title{
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy) !important;
-        font-weight:760;
-        font-size:.82rem;
-        margin:.06rem 0 -.2rem .12rem;
-    }
-    div[data-testid="stPlotlyChart"]{
-        border:1px solid #e0e7eb;
-        border-radius:13px;
-        background:#fff;
-        box-shadow:0 6px 17px rgba(18,42,68,.038);
-        overflow:hidden;
+    .chip-row {margin-top: 1.2rem; display: flex; gap: .55rem; flex-wrap: wrap;}
+    .chip {
+        display: inline-block;
+        padding: .36rem .74rem;
+        border-radius: 999px;
+        border: 1px solid rgba(15,111,120,.16);
+        color: #155C65 !important;
+        background: rgba(234,244,244,.78);
+        font-size: .78rem;
+        font-weight: 560;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
     }
 
-    /* Compact "ready" state */
-    .ready-card{
-        text-align:center;
-        border:1px dashed #ccdce3;
-        border-radius:16px;
-        background:linear-gradient(180deg,#fff,#f8fbfc);
-        padding:1.5rem 1rem;
-        margin-top:.25rem;
-    }
-    .ready-card h3{
-        margin:.2rem 0 .3rem 0;
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy) !important;
-    }
-    .ready-card p{
-        margin:0 auto;
-        max-width:720px;
-        color:#65758a !important;
-        font-size:.82rem;
-    }
-    .science-card{
-        height:100%;
-        padding:.78rem .9rem;
-        border-radius:13px;
-        border:1px solid #e0e7eb;
-        background:#fff;
-        box-shadow:0 6px 16px rgba(18,42,68,.035);
-    }
-    .science-card h4{
-        margin:0 0 .2rem 0;
-        font-family:Georgia,"Times New Roman",serif;
-        color:var(--navy) !important;
-        font-size:.95rem;
-    }
-    .science-card p{
-        margin:0;
-        color:#66778b !important;
-        font-size:.72rem;
-        line-height:1.4;
+    .credit-card {
+        border: 1px solid rgba(11,31,51,.10);
+        border-top: 3px solid var(--gold);
+        border-radius: 16px;
+        padding: .95rem 1rem;
+        margin-top: 1.25rem;
+        background: linear-gradient(145deg, #FFFFFF 0%, #F8F6F0 100%);
+        box-shadow: 0 9px 24px rgba(11,31,51,.055);
+        line-height: 1.55;
     }
 
-    /* Project pages */
-    .section-kicker{
-        color:var(--teal) !important;
-        text-transform:uppercase;
-        letter-spacing:.17em;
-        font-weight:800;
-        font-size:.68rem;
-    }
-    .section-title{
-        margin:.08rem 0 .38rem 0;
-        font-family:Georgia,"Times New Roman",serif;
-        font-size:1.45rem;
-        color:var(--navy) !important;
-    }
-    .project-note{
-        border-left:3px solid var(--gold);
-        background:#fbf8f0;
-        color:#5f6670 !important;
-        border-radius:0 9px 9px 0;
-        padding:.55rem .75rem;
-        margin:.25rem 0 .5rem 0;
-        font-size:.78rem;
-    }
-    .footer-line{
-        text-align:center;
-        margin-top:.25rem;
-        padding-top:.28rem;
-        border-top:1px solid #e4eaee;
-        color:#8390a0 !important;
-        font-size:.60rem;
+    .sidebar-divider {
+        height: 1px;
+        margin: 1.25rem 0 .2rem 0;
+        background: linear-gradient(90deg, transparent, rgba(183,146,74,.38), transparent);
     }
 
-    /* Reduce Streamlit vertical gaps */
-    div[data-testid="stVerticalBlock"]{gap:.42rem !important;}
-    div[data-testid="stHorizontalBlock"]{gap:.62rem !important;}
+    .credit-card b {color: #0B1F33 !important;}
+    .credit-card .small {color: #7A746A !important; font-size: .82rem;}
 
-    /* Download button */
-    [data-testid="stDownloadButton"] button{
-        min-height:2.2rem !important;
-        border-radius:9px !important;
+    .section-kicker {
+        color: var(--gold) !important;
+        font-size: .75rem;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        font-weight: 760;
+        margin-bottom: .2rem;
     }
 
-    /* Keep native code/data blocks compact elsewhere */
-    .stDataFrame{font-size:.72rem;}
+    .section-title {
+        color: #0B1F33 !important;
+        font-size: 1.65rem;
+        font-weight: 780;
+        margin: 0 0 .5rem 0;
+    }
 
+    .science-card {
+        height: 100%;
+        padding: 1.1rem 1.15rem;
+        border-radius: 17px;
+        border: 1px solid rgba(11,31,51,.095);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBFCFC 100%);
+        box-shadow: 0 10px 28px rgba(11,31,51,.055), inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .science-card h4 {margin: 0 0 .45rem 0; color: #0B1F33 !important;}
+    .science-card p {margin: 0; color: #647184 !important; font-size: .9rem; line-height: 1.55;}
+
+    .ready-card {
+        text-align: center;
+        padding: 2.2rem 1.4rem;
+        margin-top: .8rem;
+        border-radius: 20px;
+        border: 1px solid rgba(15,111,120,.15);
+        background:
+            radial-gradient(circle at 50% 0%, rgba(183,146,74,.055), transparent 28%),
+            linear-gradient(180deg, #FFFFFF, #F6F9F9);
+        box-shadow: 0 12px 30px rgba(11,31,51,.045);
+    }
+    .ready-icon {font-size: 2.1rem; margin-bottom: .45rem;}
+    .ready-card h3 {margin: .2rem 0 .35rem 0; color: #0B1F33 !important;}
+    .ready-card p {color: #667085 !important; margin: 0 auto; max-width: 720px;}
+
+    div[data-testid="stMetric"] {
+        border: 1px solid rgba(11,31,51,.10);
+        border-top: 2px solid rgba(183,146,74,.72);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFB 100%);
+        padding: .82rem .98rem;
+        border-radius: 15px;
+        box-shadow: 0 8px 22px rgba(11,31,51,.05);
+    }
+    div[data-testid="stMetricValue"] {color: #0B1F33 !important;}
+    div[data-testid="stMetricLabel"] {color: #5E6A78 !important;}
+
+    .stButton > button[kind="primary"] {
+        border: 0 !important;
+        background: linear-gradient(100deg, #0E6670 0%, #0B1F33 100%) !important;
+        color: white !important;
+        font-weight: 740 !important;
+        min-height: 3.15rem;
+        border-radius: 12px !important;
+        box-shadow: 0 11px 28px rgba(11,31,51,.18);
+    }
+    .stButton > button[kind="primary"]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 15px 34px rgba(11,31,51,.24);
+        filter: brightness(1.03);
+    }
+
+    .stButton > button:not([kind="primary"]) {
+        background: #FFFFFF !important;
+        color: #263548 !important;
+        border: 1px solid #D7DDE3 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 3px 10px rgba(11,31,51,.025);
+    }
+
+    .stTabs [data-baseweb="tab-list"] {
+        gap: .45rem;
+        border-bottom-color: #DDE3E6;
+    }
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 10px 10px 0 0;
+        padding-left: .8rem;
+        padding-right: .8rem;
+        color: #445164 !important;
+        font-weight: 560;
+    }
+    .stTabs [aria-selected="true"] {
+        color: #0F6F78 !important;
+        font-weight: 740;
+    }
+
+    /* Premium teal replaces Streamlit's default red control accent. */
+    div[data-baseweb="slider"] [role="slider"] {
+        background-color: #0F6F78 !important;
+        border-color: #0F6F78 !important;
+        box-shadow: 0 0 0 3px rgba(15,111,120,.10) !important;
+    }
+    div[data-baseweb="slider"] > div > div {
+        background-color: #0F6F78 !important;
+    }
+
+    [data-testid="stExpander"] {
+        border-color: rgba(11,31,51,.11) !important;
+        border-radius: 14px !important;
+        background: rgba(255,255,255,.86);
+        box-shadow: 0 4px 14px rgba(11,31,51,.025);
+    }
+    [data-testid="stExpander"] summary,
+    [data-testid="stExpander"] summary * {
+        color: #263548 !important;
+    }
+
+    .project-note {
+        border-left: 3px solid var(--gold);
+        padding: .75rem .95rem;
+        color: #3F4D5D !important;
+        background: #F8F5EC;
+        border-radius: 0 12px 12px 0;
+        margin: .65rem 0 1rem 0;
+    }
+
+    div[data-testid="stCodeBlock"] pre,
+    div[data-testid="stCodeBlock"] code {
+        background: #F3F5F6 !important;
+        color: #142234 !important;
+        border-color: rgba(11,31,51,.08) !important;
+    }
+
+    [data-testid="stDataFrame"] {
+        background: #FFFFFF !important;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(11,31,51,.035);
+    }
+
+    [data-testid="stAlert"] {
+        background: #EEF5F5 !important;
+        color: #263548 !important;
+        border-color: rgba(15,111,120,.14) !important;
+    }
+
+    .footer-line {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(11,31,51,.09);
+        color: #7B8490 !important;
+        font-size: .78rem;
+        text-align: center;
+    }
     </style>
     """,
     unsafe_allow_html=True,
 )
 
 
-# ---------------------------------------------------------------------
-# Sidebar
-# ---------------------------------------------------------------------
+# ---------------- Sidebar ----------------
 with st.sidebar:
     if LOGO_PATH.exists():
-        c1, c2, c3 = st.columns([0.28, 0.44, 0.28])
-        with c2:
+        logo_left, logo_mid, logo_right = st.columns([0.160, 0.240, 0.160])
+        with logo_mid:
             st.image(str(LOGO_PATH), use_container_width=True)
 
-    st.markdown(
-        """
-        <div class="brand-block">
-            <div class="brand-main">NANOMAX GROUP</div>
-            <div class="brand-sub">HIT Shenzhen</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown("### ⚙ Design parameters")
-
+    st.markdown("### Design parameters")
     length = st.slider("DNA length (nt)", 100, 200, 150, 5)
     branches = st.slider("Target branches", 2, 5, 3, 1)
     loops = st.slider("Target loops", 3, 8, 5, 1)
     gc_target_percent = st.slider("GC target (%)", 40, 80, 60, 1)
 
-    with st.expander("⚙ Advanced / reproducibility"):
+    with st.expander("Advanced / reproducibility"):
         use_seed = st.checkbox("Use fixed random seed", value=True)
         seed = st.number_input("Seed", min_value=0, max_value=999999, value=42, step=1)
 
     generate = st.button("⚡ Generate DNA aptamer", type="primary", use_container_width=True)
 
-    if st.button("🗑 Clear generated result", use_container_width=True):
+    if st.button("Clear generated result", use_container_width=True):
         st.session_state.pop("nanomax_result", None)
         st.session_state.pop("nanomax_params", None)
         st.rerun()
 
+    # Project attribution deliberately sits at the bottom of the control panel.
+    st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
     st.markdown(
         """
         <div class="credit-card">
-            <div class="small">A Project by</div>
-            <b>Prof. Xingyi Ma</b><br>
-            <span style="font-size:.76rem">NanoMax Group, HIT Shenzhen</span>
-            <div style="height:.48rem"></div>
-            <div class="small">Design and Developed by</div>
-            <b>Doctor Sukhera (学睿)</b>
+          <div class="small">A Project by</div>
+          <b>Prof. Xingyi Ma</b><br>
+          <span>NanoMax Group, HIT Shenzhen</span>
+          <div style="height:.75rem"></div>
+          <div class="small">Design and Developed by</div>
+          <b>Doctor Sukhera (学睿)</b>
         </div>
         """,
         unsafe_allow_html=True,
     )
 
 
-# ---------------------------------------------------------------------
-# Hero
-# ---------------------------------------------------------------------
+# ---------------- Hero ----------------
 st.markdown(
     """
     <div class="hero-shell">
-        <div class="eyebrow">NanoMax Group · HIT Shenzhen</div>
-        <h1 class="hero-title">NanoMax Aptamer Inverse Folding Model</h1>
-        <p class="hero-sub">
-            Interactive inverse design of asymmetric DNA aptamer candidates from user-defined structural constraints.
-            Explore target architecture, sequence composition, structural asymmetry and computational descriptors in one interface.
-        </p>
-        <div class="chip-row">
-            <span class="chip">Asymmetric DNA design</span>
-            <span class="chip">Inverse folding</span>
-            <span class="chip">Dot-bracket structure</span>
-            <span class="chip">Asymmetry quantification</span>
-            <span class="chip">Interactive analytics</span>
-        </div>
+      <div class="eyebrow">NanoMax Group · HIT Shenzhen</div>
+      <h1 class="hero-title">NanoMax Aptamer Inverse Folding Model</h1>
+      <p class="hero-sub">
+        Interactive inverse design of asymmetric DNA aptamer candidates from user-defined structural constraints.
+        Explore target architecture, sequence composition, structural asymmetry and computational descriptors in one interface.
+      </p>
+      <div class="chip-row">
+        <span class="chip">Asymmetric DNA design</span>
+        <span class="chip">Inverse folding</span>
+        <span class="chip">Dot-bracket structure</span>
+        <span class="chip">Asymmetry quantification</span>
+        <span class="chip">Interactive analytics</span>
+      </div>
     </div>
     """,
     unsafe_allow_html=True,
 )
 
 
-# ---------------------------------------------------------------------
-# Generate only after explicit user click
-# ---------------------------------------------------------------------
+# Generate only after an explicit click. No candidate sequence/analysis is shown on first load.
 if generate:
     actual_seed = int(seed) if use_seed else None
-    with st.spinner("NanoMax is generating an asymmetric DNA aptamer candidate…"):
+    with st.spinner("NanoMax is constructing an asymmetric target and generating a candidate sequence…"):
         designer = AsymmetricDNAAptamerDesigner(seed=actual_seed)
         structure = designer.generate_asymmetric_multibranch(length, branches, loops)
         sequence = designer.generate_sequence(structure, gc_target_percent / 100)
@@ -605,35 +433,33 @@ if generate:
 
 
 designer_tab, project_tab, science_tab = st.tabs(
-    ["🧬 Designer", "📊 Project overview", "📑 Scientific framework"]
+    ["⚡ Designer", "🧬 Project overview", "🔬 Scientific framework"]
 )
 
 
-# ---------------------------------------------------------------------
-# DESIGNER: compact one-screen dashboard
-# ---------------------------------------------------------------------
+# ---------------- Designer ----------------
 with designer_tab:
     if "nanomax_result" not in st.session_state:
         st.markdown(
             """
             <div class="ready-card">
-                <div style="font-size:1.7rem">🧬</div>
-                <h3>Ready for inverse design</h3>
-                <p>
-                    Set the design parameters in the left panel and click
-                    <b>Generate DNA aptamer</b>. The candidate sequence and analysis
-                    stay hidden until generation is requested.
-                </p>
+              <div class="ready-icon">⌁🧬⌁</div>
+              <h3>Ready for inverse design</h3>
+              <p>
+                Set the structural parameters in the left panel and click <b>Generate DNA aptamer</b>.
+                The candidate DNA sequence and all analytical results will remain hidden until generation is requested.
+              </p>
             </div>
             """,
             unsafe_allow_html=True,
         )
 
+        st.markdown("<br>", unsafe_allow_html=True)
         c1, c2, c3 = st.columns(3)
         cards = [
-            (c1, "01 · Define", "Set DNA length, branches, loops and GC-content preference."),
-            (c2, "02 · Generate", "NanoMax builds an asymmetric target and generates a compatible DNA candidate."),
-            (c3, "03 · Inspect", "Review asymmetry, sequence composition, pairing and structural descriptors."),
+            (c1, "01 · Define", "Specify DNA length, target branches, loops and GC-content preference."),
+            (c2, "02 · Generate", "NanoMax constructs an asymmetric target structure and produces a compatible candidate sequence."),
+            (c3, "03 · Inspect", "Review asymmetry, base composition, pairing, structural descriptors and visual analytics."),
         ]
         for col, title, text in cards:
             with col:
@@ -641,7 +467,6 @@ with designer_tab:
                     f'<div class="science-card"><h4>{title}</h4><p>{text}</p></div>',
                     unsafe_allow_html=True,
                 )
-
     else:
         result = st.session_state["nanomax_result"]
         structure = result["structure"]
@@ -649,76 +474,34 @@ with designer_tab:
         analysis = result["analysis"]
         params = st.session_state.get("nanomax_params", {})
 
-        # Header
-        st.markdown(
-            """
-            <div class="output-head">
-                <div class="output-icon">🧬</div>
-                <div class="output-title">Generated candidate</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
+        st.markdown('<div class="section-kicker">NanoMax output</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-title">Generated candidate</div>', unsafe_allow_html=True)
         if params:
             seed_label = "random" if params.get("seed") is None else str(params.get("seed"))
-            st.markdown(
-                f"""
-                <div class="output-caption">
-                    Generated with length={params.get('length')} nt · branches={params.get('branches')} ·
-                    loops={params.get('loops')} · GC target={params.get('gc_target')}% · seed={seed_label}
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.caption(
+                f"Generated with length={params.get('length')} nt · branches={params.get('branches')} · "
+                f"loops={params.get('loops')} · GC target={params.get('gc_target')}% · seed={seed_label}"
             )
 
-        # Sequence / structure in one compact row
-        left, right = st.columns([1, 1])
-        with left:
-            st.markdown('<div class="seq-label">DNA sequence (5′ → 3′)</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="seq-box" title="{sequence}">{sequence}</div>', unsafe_allow_html=True)
-        with right:
-            st.markdown('<div class="seq-label">Target secondary structure (dot-bracket notation)</div>', unsafe_allow_html=True)
-            st.markdown(f'<div class="seq-box" title="{structure}">{structure}</div>', unsafe_allow_html=True)
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            st.markdown("**DNA sequence (5′ → 3′)**")
+            st.code(sequence, language=None)
+        with col2:
+            st.markdown("**Target secondary structure (dot-bracket notation)**")
+            st.code(structure, language=None)
 
-        # Five premium compact metric cards
-        metric_specs = [
-            ("📏", "Length", f"{int(analysis['length'])} nt", "#0b6e91"),
-            ("％", "GC content", f"{analysis['gc_content']:.1f}%", "#198765"),
-            ("⌘", "Asymmetry", f"{analysis['asymmetry_score']:.1f}%", "#c08317"),
-            ("🔗", "Paired bases", f"{analysis['pairing_percent']:.1f}%", "#1468a8"),
-            ("♢", "Stability score*", f"{analysis['stability_score']:.1f}", "#6541cf"),
-        ]
-        metric_cols = st.columns(5)
-        for col, (icon, label, value, accent) in zip(metric_cols, metric_specs):
-            with col:
-                st.markdown(
-                    f"""
-                    <div class="metric-card" style="--metric-accent:{accent}">
-                        <div class="metric-row">
-                            <div class="metric-icon">{icon}</div>
-                            <div class="metric-label">{label}</div>
-                        </div>
-                        <div class="metric-value">{value}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
+        m1, m2, m3, m4, m5 = st.columns(5)
+        m1.metric("Length", f"{int(analysis['length'])} nt")
+        m2.metric("GC content", f"{analysis['gc_content']:.1f}%")
+        m3.metric("Asymmetry", f"{analysis['asymmetry_score']:.1f}%")
+        m4.metric("Paired bases", f"{analysis['pairing_percent']:.1f}%")
+        m5.metric("Stability score*", f"{analysis['stability_score']:.1f}")
 
-        # Thin analysis strip - intentionally visual, all important analytics stay visible below
-        st.markdown(
-            """
-            <div class="analysis-strip">
-                <span>▤ &nbsp;Sequence analysis</span>
-                <span>⚒ &nbsp;Structure analysis</span>
-                <span>▥ &nbsp;Visualizations</span>
-                <span>▧ &nbsp;Method &amp; defense notes</span>
-            </div>
-            """,
-            unsafe_allow_html=True,
+        sequence_tab, structure_tab, plots_tab, method_tab = st.tabs(
+            ["Sequence analysis", "Structure analysis", "Visualizations", "Method & defense notes"]
         )
 
-        # Data for charts
         composition_df = pd.DataFrame(
             {
                 "Base": ["A", "C", "G", "T"],
@@ -726,162 +509,153 @@ with designer_tab:
                 "Percent": [analysis[f"{b}_percent"] for b in ["A", "C", "G", "T"]],
             }
         )
-        pair_df = pd.DataFrame(
-            {
-                "Pair type": ["GC", "AT"],
-                "Count": [analysis["gc_pairs"], analysis["at_pairs"]],
-            }
-        )
 
-        # Top chart row
-        chart1, chart2 = st.columns(2)
+        with sequence_tab:
+            left, right = st.columns(2)
+            with left:
+                st.dataframe(composition_df, hide_index=True, use_container_width=True)
+            with right:
+                st.write(f"**Shannon entropy:** {analysis['sequence_complexity']:.3f}")
+                st.write(f"**Purine:pyrimidine ratio:** {analysis['purine_pyrimidine_ratio']:.2f}")
+                st.write(f"**GC base pairs:** {int(analysis['gc_pairs'])}")
+                st.write(f"**AT base pairs:** {int(analysis['at_pairs'])}")
 
-        with chart1:
-            st.markdown('<div class="chart-title">▥ &nbsp;Base composition</div>', unsafe_allow_html=True)
-            fig = px.bar(
-                composition_df,
-                x="Base",
-                y="Percent",
-                text="Percent",
-                color="Base",
-                color_discrete_sequence=["#3488f5", "#2c8f91", "#d5a03a", "#7651df"],
+        with structure_tab:
+            descriptors = pd.DataFrame(
+                {
+                    "Descriptor": [
+                        "Hairpin loops",
+                        "Bulges",
+                        "Internal loops",
+                        "Detected branch points",
+                        "Paired bases",
+                        "Unpaired bases",
+                    ],
+                    "Value": [
+                        int(analysis["hairpins"]),
+                        int(analysis["bulges"]),
+                        int(analysis["internal_loops"]),
+                        int(analysis["branches"]),
+                        int(analysis["paired_bases"]),
+                        int(analysis["unpaired_bases"]),
+                    ],
+                }
             )
-            fig.update_traces(
-                texttemplate="%{text:.1f}%",
-                textposition="outside",
-                marker_line_width=0,
+            st.dataframe(descriptors, hide_index=True, use_container_width=True)
+            st.info("Dot-bracket notation uses '(' and ')' for paired positions and '.' for unpaired positions.")
+
+        with plots_tab:
+            chart1, chart2 = st.columns(2)
+            with chart1:
+                fig = px.bar(
+                    composition_df,
+                    x="Base",
+                    y="Percent",
+                    text="Percent",
+                    title="Base composition",
+                    color="Base",
+                    color_discrete_sequence=["#0F6F78", "#315C7A", "#B7924A", "#7A8F78"],
+                )
+                fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
+                fig.update_layout(
+                    yaxis_title="Percentage",
+                    showlegend=False,
+                    template="plotly_white",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#FFFFFF",
+                    font=dict(color="#263548"),
+                    title_font=dict(color="#0B1F33"),
+                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                )
+                st.plotly_chart(fig, use_container_width=True)
+
+            with chart2:
+                pair_df = pd.DataFrame(
+                    {
+                        "Pair type": ["GC", "AT"],
+                        "Count": [analysis["gc_pairs"], analysis["at_pairs"]],
+                    }
+                )
+                fig2 = px.bar(
+                    pair_df,
+                    x="Pair type",
+                    y="Count",
+                    text="Count",
+                    title="Paired-base composition",
+                    color="Pair type",
+                    color_discrete_sequence=["#0F6F78", "#B7924A"],
+                )
+                fig2.update_layout(
+                    showlegend=False,
+                    template="plotly_white",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#FFFFFF",
+                    font=dict(color="#263548"),
+                    title_font=dict(color="#0B1F33"),
+                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                )
+                st.plotly_chart(fig2, use_container_width=True)
+
+            pairing_status = [1 if c in "()" else 0 for c in structure]
+            fig3 = go.Figure()
+            fig3.add_trace(
+                go.Scatter(
+                    x=list(range(1, len(structure) + 1)),
+                    y=pairing_status,
+                    mode="lines",
+                    name="Pairing status",
+                    line=dict(color="#0F6F78", width=2),
+                    fill="tozeroy",
+                    fillcolor="rgba(15,111,120,.10)",
+                )
             )
-            fig.update_layout(
-                height=178,
-                margin=dict(l=34, r=12, t=18, b=32),
-                showlegend=False,
+            fig3.update_layout(
+                title="Pairing distribution along the candidate",
+                template="plotly_white",
                 paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="#ffffff",
-                font=dict(color="#29425f", size=10),
-                xaxis=dict(title="Base", showgrid=False, zeroline=False),
-                yaxis=dict(
-                    title="Percentage (%)",
-                    showgrid=True,
-                    gridcolor="#e9eef2",
-                    zeroline=False,
-                    rangemode="tozero",
-                ),
+                plot_bgcolor="#FFFFFF",
+                font=dict(color="#263548"),
+                title_font=dict(color="#0B1F33"),
+                xaxis=dict(title="Nucleotide position", gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                yaxis=dict(title="Paired (1) / unpaired (0)", tickmode="array", tickvals=[0, 1], gridcolor="#E8ECEF", linecolor="#C8D0D8"),
             )
-            st.plotly_chart(
-                fig,
-                use_container_width=True,
-                config={"displayModeBar": False, "responsive": True},
+            st.plotly_chart(fig3, use_container_width=True)
+
+        with method_tab:
+            st.markdown(
+                """
+**Algorithm:** constraint-guided stochastic inverse design.
+
+**Core technologies:** Python, NumPy probabilistic sampling, DNA base-pairing constraints (A–T and G–C), dot-bracket secondary-structure representation, Shannon-entropy sequence analysis, structural-asymmetry scoring, heuristic pair-weight stability scoring, Plotly visualization, and Streamlit web deployment.
+
+**Short defense explanation:** NanoMax starts from desired structural constraints, builds an asymmetric target secondary structure, and then generates a DNA sequence intended to satisfy that structure while favoring stable base pairing and a selected GC-content range.
+
+**Validation pathway:** generated candidates can be taken forward to established secondary-structure/thermodynamic tools and experimental assessment before biological interpretation.
+                """
             )
 
-        with chart2:
-            st.markdown('<div class="chart-title">🔗 &nbsp;Paired-base composition</div>', unsafe_allow_html=True)
-            fig2 = px.bar(
-                pair_df,
-                x="Pair type",
-                y="Count",
-                text="Count",
-                color="Pair type",
-                color_discrete_sequence=["#31b9b5", "#7451e4"],
-            )
-            fig2.update_traces(textposition="outside", marker_line_width=0)
-            fig2.update_layout(
-                height=178,
-                margin=dict(l=34, r=12, t=18, b=32),
-                showlegend=False,
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="#ffffff",
-                font=dict(color="#29425f", size=10),
-                xaxis=dict(title="Pair type", showgrid=False, zeroline=False),
-                yaxis=dict(
-                    title="Count",
-                    showgrid=True,
-                    gridcolor="#e9eef2",
-                    zeroline=False,
-                    rangemode="tozero",
-                ),
-            )
-            st.plotly_chart(
-                fig2,
-                use_container_width=True,
-                config={"displayModeBar": False, "responsive": True},
-            )
-
-        # Pairing distribution - compact full-width bottom chart
-        st.markdown(
-            '<div class="chart-title">〰 &nbsp;Pairing distribution along the candidate</div>',
-            unsafe_allow_html=True,
+        st.download_button(
+            "⬇️ Download analysis report",
+            data=result["report"],
+            file_name="NanoMax_DNA_Aptamer_Analysis.md",
+            mime="text/markdown",
         )
-        pairing_status = [1 if c in "()" else 0 for c in structure]
-        fig3 = go.Figure()
-        fig3.add_trace(
-            go.Scatter(
-                x=list(range(1, len(structure) + 1)),
-                y=pairing_status,
-                mode="lines",
-                line=dict(color="#1976d2", width=2),
-                fill="tozeroy",
-                fillcolor="rgba(25,118,210,.055)",
-                hovertemplate="Position %{x}<br>Paired: %{y}<extra></extra>",
-            )
-        )
-        fig3.update_layout(
-            height=145,
-            margin=dict(l=38, r=14, t=12, b=30),
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="#ffffff",
-            font=dict(color="#29425f", size=10),
-            xaxis=dict(
-                title="Nucleotide position",
-                showgrid=True,
-                gridcolor="#edf1f4",
-                zeroline=False,
-            ),
-            yaxis=dict(
-                title="Paired (1) / unpaired (0)",
-                tickmode="array",
-                tickvals=[0, 1],
-                range=[-0.05, 1.18],
-                showgrid=False,
-                zeroline=False,
-            ),
-        )
-        st.plotly_chart(
-            fig3,
-            use_container_width=True,
-            config={"displayModeBar": False, "responsive": True},
+        st.caption(
+            "*The displayed stability score is an internal weighted-pair descriptor for candidate comparison; it is not thermodynamic ΔG."
         )
 
-        # Tiny footer actions/info so they do not create a second screen
-        d1, d2 = st.columns([0.28, 0.72])
-        with d1:
-            st.download_button(
-                "⬇ Download analysis report",
-                data=result["report"],
-                file_name="NanoMax_DNA_Aptamer_Analysis.md",
-                mime="text/markdown",
-                use_container_width=True,
-            )
-        with d2:
-            st.caption(
-                "Stability score is an internal weighted-pair descriptor for candidate comparison; it is not thermodynamic ΔG."
-            )
 
-
-# ---------------------------------------------------------------------
-# PROJECT OVERVIEW
-# ---------------------------------------------------------------------
+# ---------------- Project overview ----------------
 with project_tab:
     st.markdown('<div class="section-kicker">Research concept</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="section-title">From desired asymmetry to a candidate DNA architecture</div>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="section-title">From desired asymmetry to a candidate DNA architecture</div>', unsafe_allow_html=True)
     st.markdown(
         """
         <div class="project-note">
-        NanoMax frames aptamer generation as an inverse-design problem: define the desired
-        asymmetric structural characteristics first, then generate and inspect DNA candidates
-        that satisfy the computational constraints.
+        NanoMax frames aptamer design as an inverse problem: define the desired asymmetric structural characteristics first,
+        then generate and inspect candidate DNA sequences that satisfy the computational constraints.
         </div>
         """,
         unsafe_allow_html=True,
@@ -889,49 +663,43 @@ with project_tab:
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        st.markdown(
-            '<div class="science-card"><h4>Input</h4><p>DNA length, branches, loops and GC-content preference.</p></div>',
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="science-card"><h4>Input</h4><p>DNA length, target branches, loops and GC-content preference.</p></div>', unsafe_allow_html=True)
     with c2:
-        st.markdown(
-            '<div class="science-card"><h4>Computational core</h4><p>Asymmetric target generation, dot-bracket representation, constrained stochastic sequence generation and descriptor calculation.</p></div>',
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="science-card"><h4>Computational core</h4><p>Asymmetric target generation, dot-bracket representation, constrained stochastic sequence generation and descriptor calculation.</p></div>', unsafe_allow_html=True)
     with c3:
-        st.markdown(
-            '<div class="science-card"><h4>Output</h4><p>Candidate sequence, target structure, asymmetry index, pairing statistics and downloadable analysis.</p></div>',
-            unsafe_allow_html=True,
-        )
+        st.markdown('<div class="science-card"><h4>Output</h4><p>Candidate DNA sequence, target secondary structure, asymmetry index, pairing statistics and downloadable analysis.</p></div>', unsafe_allow_html=True)
 
+    st.markdown("### NanoMax inverse-design workflow")
+    st.write("This figure summarizes the project route from desired asymmetric structural features to sequence generation, secondary-structure analysis and downstream nanomaterial design.")
     if WORKFLOW_FIG.exists():
         st.image(str(WORKFLOW_FIG), use_container_width=True)
-        st.caption(
-            "NanoMax project workflow: target-feature definition → inverse sequence generation → structural analysis → downstream nanomaterial concept."
-        )
+        st.caption("NanoMax project workflow: target-feature definition → inverse sequence generation → structural analysis → downstream nanomaterial concept.")
+    else:
+        st.warning("Workflow figure was not found in the repository.")
 
+    st.markdown("### Secondary-structure asymmetry quantification")
+    st.write("The asymmetry index compares the two halves of the dot-bracket representation after mirroring/reversing one side, providing a quantitative secondary-structure asymmetry score.")
     if ASYMMETRY_FIG.exists():
         st.image(str(ASYMMETRY_FIG), use_container_width=True)
-        st.caption(
-            "Mirror-comparison framework used to quantify asymmetry in the secondary-structure representation."
-        )
+        st.caption("Mirror-comparison framework used to quantify asymmetry in the secondary-structure representation.")
+    else:
+        st.warning("Asymmetry-index figure was not found in the repository.")
 
 
-# ---------------------------------------------------------------------
-# SCIENTIFIC FRAMEWORK
-# ---------------------------------------------------------------------
+# ---------------- Scientific framework ----------------
 with science_tab:
     st.markdown('<div class="section-kicker">Beyond the sequence</div>', unsafe_allow_html=True)
-    st.markdown(
-        '<div class="section-title">Linking 2D structural asymmetry with 3D nanomaterial morphology</div>',
-        unsafe_allow_html=True,
+    st.markdown('<div class="section-title">Linking 2D structural asymmetry with 3D nanomaterial morphology</div>', unsafe_allow_html=True)
+    st.write(
+        "The broader project includes a geometric framework for quantifying asymmetry in a three-dimensional gold nanoparticle. "
+        "The illustrated workflow uses the center of mass, the inertia tensor and principal axes to define a reference frame, "
+        "followed by a symmetry-plane cut and mirrored surface comparison to obtain a normalized mismatch measure."
     )
-
     if NANO_3D_FIG.exists():
         st.image(str(NANO_3D_FIG), use_container_width=True)
-        st.caption(
-            "Conceptual 3D asymmetry workflow: center of mass → inertia tensor/principal axes → reference symmetry plane → mirrored surface mismatch."
-        )
+        st.caption("Conceptual 3D asymmetry workflow: center of mass → inertia tensor/principal axes → reference symmetry plane → mirrored surface mismatch.")
+    else:
+        st.warning("Three-dimensional asymmetry figure was not found in the repository.")
 
     st.markdown("### Defense quick facts")
     q1, q2 = st.columns(2)
@@ -958,7 +726,7 @@ with science_tab:
 st.markdown(
     """
     <div class="footer-line">
-        NanoMax Group · Harbin Institute of Technology, Shenzhen · Interactive research prototype
+    NanoMax Group · Harbin Institute of Technology, Shenzhen · Interactive research prototype
     </div>
     """,
     unsafe_allow_html=True,
