@@ -33,44 +33,48 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# Light, scientific interface styling.
+# Premium light scientific interface styling.
 st.markdown(
     """
     <style>
     :root {
-        --navy: #0B1F33;
-        --navy2: #16324A;
-        --teal: #0F6F78;
-        --teal-soft: #EAF4F4;
-        --gold: #B7924A;
-        --gold-soft: #F5EFE2;
-        --ivory: #F8F7F3;
+        --ink: #0B1F3A;
+        --ink-2: #243A55;
+        --teal: #0B7A83;
+        --teal-2: #0E6174;
+        --teal-soft: #EAF6F5;
+        --gold: #C49335;
+        --gold-soft: #FBF5E8;
+        --pearl: #FBFCFD;
+        --warm: #F7F6F2;
         --panel: #FFFFFF;
-        --line: rgba(11,31,51,.12);
-        --muted: #667085;
-        --text: #152235;
+        --line: #DDE5EA;
+        --muted: #65758A;
+        --shadow: 0 14px 38px rgba(28,49,74,.08);
     }
 
     html, body { color-scheme: light; }
 
     .stApp {
         background:
-            radial-gradient(circle at 12% 8%, rgba(15,111,120,.045), transparent 24%),
-            radial-gradient(circle at 88% 3%, rgba(183,146,74,.055), transparent 22%),
-            linear-gradient(180deg, #FCFBF8 0%, #F7F8F8 58%, #F1F4F6 100%);
-        color: var(--text);
+            radial-gradient(circle at 8% 3%, rgba(11,122,131,.035), transparent 23%),
+            radial-gradient(circle at 93% 7%, rgba(196,147,53,.045), transparent 20%),
+            linear-gradient(180deg, #FCFDFE 0%, #F7F9FA 62%, #F1F5F7 100%);
+        color: var(--ink);
     }
 
     .stApp p, .stApp span, .stApp label, .stApp li,
     .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
-        color: var(--text);
+        color: var(--ink);
     }
 
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #FBFAF7 0%, #F2F4F5 100%);
-        border-right: 1px solid rgba(11,31,51,.10);
-        box-shadow: 8px 0 28px rgba(11,31,51,.025);
+        background: linear-gradient(180deg, #FFFFFF 0%, #F7F9FA 100%);
+        border-right: 1px solid #E3E9ED;
+        box-shadow: 8px 0 32px rgba(26,49,75,.035);
     }
+
+    [data-testid="stSidebar"] > div:first-child { padding-top: .9rem; }
 
     [data-testid="stSidebar"] p,
     [data-testid="stSidebar"] span,
@@ -78,9 +82,7 @@ st.markdown(
     [data-testid="stSidebar"] h1,
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3,
-    [data-testid="stSidebar"] h4 {
-        color: #182638 !important;
-    }
+    [data-testid="stSidebar"] h4 { color: #172A43 !important; }
 
     [data-testid="stSidebar"] img {
         border: none !important;
@@ -89,254 +91,240 @@ st.markdown(
         object-fit: contain;
     }
 
+    .sidebar-brand {
+        text-align: center;
+        margin: -.15rem 0 1rem 0;
+        padding-bottom: .9rem;
+        border-bottom: 1px solid #E6EBEF;
+    }
+    .sidebar-brand .brand-main {
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: .92rem;
+        letter-spacing: .075em;
+        font-weight: 700;
+        color: var(--ink) !important;
+    }
+    .sidebar-brand .brand-sub {
+        margin-top: .16rem;
+        color: #738297 !important;
+        font-size: .67rem;
+        letter-spacing: .18em;
+        text-transform: uppercase;
+    }
+
     .block-container {
-        max-width: 1380px;
-        padding-top: 1.5rem;
-        padding-bottom: 4rem;
+        max-width: 1420px;
+        padding-top: 1.2rem;
+        padding-bottom: 3.5rem;
     }
 
     .hero-shell {
         position: relative;
         overflow: hidden;
-        padding: 2.1rem 2.2rem;
-        margin-bottom: 1.25rem;
-        border-radius: 24px;
-        border: 1px solid rgba(11,31,51,.10);
+        padding: 1.8rem 2.15rem 1.65rem 2.15rem;
+        margin-bottom: 1rem;
+        border-radius: 22px;
+        border: 1px solid #D8E4E9;
         background:
-            radial-gradient(circle at 92% 0%, rgba(183,146,74,.075), transparent 26%),
-            linear-gradient(120deg, rgba(255,255,255,.995), rgba(242,247,248,.985));
-        box-shadow:
-            0 22px 55px rgba(11,31,51,.085),
-            inset 0 1px 0 rgba(255,255,255,.92);
+            radial-gradient(circle at 91% 12%, rgba(11,122,131,.085), transparent 21%),
+            radial-gradient(circle at 98% 92%, rgba(196,147,53,.07), transparent 18%),
+            linear-gradient(115deg, #FFFFFF 0%, #F8FCFD 66%, #EEF7F9 100%);
+        box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,.98);
+    }
+
+    .hero-shell::before {
+        content: "";
+        position: absolute;
+        width: 310px;
+        height: 310px;
+        right: -120px;
+        top: -155px;
+        border-radius: 50%;
+        border: 1px solid rgba(11,122,131,.11);
+        box-shadow: inset 0 0 0 34px rgba(11,122,131,.015);
     }
 
     .hero-shell::after {
         content: "";
         position: absolute;
-        width: 230px;
-        height: 230px;
-        right: -82px;
-        top: -116px;
-        border-radius: 50%;
-        border: 1px solid rgba(15,111,120,.13);
-        box-shadow: 0 0 80px rgba(15,111,120,.04);
+        width: 76px;
+        height: 2px;
+        top: 1.55rem;
+        left: 17.3rem;
+        background: linear-gradient(90deg, var(--gold), rgba(196,147,53,.15));
     }
 
     .eyebrow {
-        color: var(--teal) !important;
+        color: var(--teal-2) !important;
         text-transform: uppercase;
         letter-spacing: .19em;
-        font-size: .75rem;
-        font-weight: 760;
-        margin-bottom: .58rem;
+        font-size: .73rem;
+        font-weight: 780;
+        margin-bottom: .65rem;
     }
 
     .hero-title {
         margin: 0;
-        font-size: clamp(2.0rem, 3.25vw, 3.45rem);
-        line-height: 1.04;
-        font-weight: 790;
-        letter-spacing: -.035em;
+        max-width: 1100px;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: clamp(2.0rem, 3vw, 3.15rem);
+        line-height: 1.03;
+        font-weight: 700;
+        letter-spacing: -.027em;
         white-space: nowrap;
-        background: linear-gradient(90deg, #0B1F33 0%, #173A4F 48%, #0F6F78 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--ink) !important;
+        -webkit-text-fill-color: var(--ink);
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
         .hero-title {white-space: normal; font-size: 2.15rem;}
+        .hero-shell::after {display:none;}
     }
 
     .hero-sub {
-        margin-top: .95rem;
-        color: #526173 !important;
-        font-size: 1.04rem;
-        max-width: 870px;
+        margin-top: .75rem;
+        color: #53657A !important;
+        font-size: 1rem;
+        max-width: 930px;
         line-height: 1.55;
     }
 
-    .chip-row {margin-top: 1.2rem; display: flex; gap: .55rem; flex-wrap: wrap;}
+    .chip-row {margin-top: 1rem; display: flex; gap: .5rem; flex-wrap: wrap;}
     .chip {
         display: inline-block;
-        padding: .36rem .74rem;
+        padding: .32rem .72rem;
         border-radius: 999px;
-        border: 1px solid rgba(15,111,120,.16);
-        color: #155C65 !important;
-        background: rgba(234,244,244,.78);
-        font-size: .78rem;
-        font-weight: 560;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+        border: 1px solid #D4E4E7;
+        color: #125F68 !important;
+        background: linear-gradient(180deg, #F3FBFA, #EAF5F5);
+        font-size: .75rem;
+        font-weight: 620;
+        box-shadow: inset 0 1px 0 #FFFFFF;
     }
 
     .credit-card {
-        border: 1px solid rgba(11,31,51,.10);
+        border: 1px solid #DDE5EA;
         border-top: 3px solid var(--gold);
         border-radius: 16px;
-        padding: .95rem 1rem;
-        margin-top: 1.25rem;
-        background: linear-gradient(145deg, #FFFFFF 0%, #F8F6F0 100%);
-        box-shadow: 0 9px 24px rgba(11,31,51,.055);
+        padding: 1rem 1rem .95rem 1rem;
+        margin-top: 1.1rem;
+        background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFB 100%);
+        box-shadow: 0 10px 26px rgba(28,49,74,.055);
         line-height: 1.55;
     }
-
     .sidebar-divider {
         height: 1px;
-        margin: 1.25rem 0 .2rem 0;
-        background: linear-gradient(90deg, transparent, rgba(183,146,74,.38), transparent);
+        margin: 1.15rem 0 .2rem 0;
+        background: linear-gradient(90deg, transparent, rgba(196,147,53,.45), transparent);
     }
-
-    .credit-card b {color: #0B1F33 !important;}
-    .credit-card .small {color: #7A746A !important; font-size: .82rem;}
+    .credit-card b {color: var(--ink) !important;}
+    .credit-card .small {color: #798699 !important; font-size: .79rem;}
 
     .section-kicker {
-        color: var(--gold) !important;
-        font-size: .75rem;
-        letter-spacing: .16em;
+        color: var(--teal) !important;
+        font-size: .72rem;
+        letter-spacing: .18em;
         text-transform: uppercase;
-        font-weight: 760;
-        margin-bottom: .2rem;
+        font-weight: 800;
+        margin-bottom: .16rem;
     }
-
     .section-title {
-        color: #0B1F33 !important;
-        font-size: 1.65rem;
-        font-weight: 780;
-        margin: 0 0 .5rem 0;
+        color: var(--ink) !important;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 1.72rem;
+        font-weight: 700;
+        margin: 0 0 .45rem 0;
     }
 
     .science-card {
         height: 100%;
-        padding: 1.1rem 1.15rem;
-        border-radius: 17px;
-        border: 1px solid rgba(11,31,51,.095);
-        background: linear-gradient(180deg, #FFFFFF 0%, #FBFCFC 100%);
-        box-shadow: 0 10px 28px rgba(11,31,51,.055), inset 0 1px 0 rgba(255,255,255,.95);
+        padding: 1.05rem 1.15rem;
+        border-radius: 16px;
+        border: 1px solid #E0E6EA;
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBFCFD 100%);
+        box-shadow: 0 9px 24px rgba(28,49,74,.05), inset 0 1px 0 #FFFFFF;
     }
-    .science-card h4 {margin: 0 0 .45rem 0; color: #0B1F33 !important;}
-    .science-card p {margin: 0; color: #647184 !important; font-size: .9rem; line-height: 1.55;}
+    .science-card h4 {margin: 0 0 .42rem 0; color: var(--ink) !important; font-family: Georgia, serif;}
+    .science-card p {margin: 0; color: #66768A !important; font-size: .89rem; line-height: 1.55;}
 
     .ready-card {
         text-align: center;
         padding: 2.2rem 1.4rem;
         margin-top: .8rem;
         border-radius: 20px;
-        border: 1px solid rgba(15,111,120,.15);
-        background:
-            radial-gradient(circle at 50% 0%, rgba(183,146,74,.055), transparent 28%),
-            linear-gradient(180deg, #FFFFFF, #F6F9F9);
-        box-shadow: 0 12px 30px rgba(11,31,51,.045);
+        border: 1px solid #DDE6EA;
+        background: radial-gradient(circle at 50% 0%, rgba(11,122,131,.055), transparent 29%), linear-gradient(180deg, #FFFFFF, #F9FBFC);
+        box-shadow: 0 12px 32px rgba(28,49,74,.05);
     }
-    .ready-icon {font-size: 2.1rem; margin-bottom: .45rem;}
-    .ready-card h3 {margin: .2rem 0 .35rem 0; color: #0B1F33 !important;}
-    .ready-card p {color: #667085 !important; margin: 0 auto; max-width: 720px;}
+    .ready-icon {font-size: 2rem; margin-bottom: .45rem;}
+    .ready-card h3 {margin: .2rem 0 .35rem 0; color: var(--ink) !important; font-family: Georgia, serif;}
+    .ready-card p {color: #68788B !important; margin: 0 auto; max-width: 720px;}
 
-    div[data-testid="stMetric"] {
-        border: 1px solid rgba(11,31,51,.10);
-        border-top: 2px solid rgba(183,146,74,.72);
-        background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFB 100%);
-        padding: .82rem .98rem;
-        border-radius: 15px;
-        box-shadow: 0 8px 22px rgba(11,31,51,.05);
+    .result-heading {display:flex;align-items:center;gap:.6rem;margin-bottom:.1rem;}
+    .result-heading .dna-mark {
+        width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+        background:var(--teal-soft);color:var(--teal) !important;font-weight:800;border:1px solid #D3E8E7;font-size:.68rem;
     }
-    div[data-testid="stMetricValue"] {color: #0B1F33 !important;}
-    div[data-testid="stMetricLabel"] {color: #5E6A78 !important;}
+    .result-heading .result-title {font-family:Georgia,'Times New Roman',serif;font-size:1.55rem;font-weight:700;color:var(--ink) !important;}
+
+    .sequence-box {
+        padding: .72rem .9rem;border:1px solid #DEE6EA;border-radius:11px;
+        background:linear-gradient(180deg,#FAFBFC,#F4F7F8);color:#23364C !important;
+        font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:.82rem;
+        white-space:nowrap;overflow-x:auto;box-shadow:inset 0 1px 2px rgba(28,49,74,.025);
+    }
+
+    .metric-card {
+        min-height:102px;padding:.82rem .95rem;border-radius:15px;border:1px solid #DDE5EA;
+        background:linear-gradient(180deg,#FFFFFF,#FBFCFD);box-shadow:0 8px 22px rgba(28,49,74,.05);
+        display:flex;gap:.72rem;align-items:center;
+    }
+    .metric-card .metric-icon {
+        flex:0 0 auto;width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+        font-weight:800;font-size:.8rem;background:#EEF7F7;color:var(--teal) !important;border:1px solid #D5E9E8;
+    }
+    .metric-card.gold .metric-icon {background:var(--gold-soft);color:#A56E0C !important;border-color:#EFE0BF;}
+    .metric-card.purple .metric-icon {background:#F2EEFF;color:#6C4BD3 !important;border-color:#E1D7FF;}
+    .metric-card .metric-label {font-size:.78rem;font-weight:650;color:#526277 !important;margin-bottom:.08rem;}
+    .metric-card .metric-value {font-family:Georgia,serif;font-size:1.65rem;font-weight:700;color:var(--ink) !important;line-height:1.05;}
+    .metric-card.teal .metric-value {color:#087A63 !important;}
+    .metric-card.gold .metric-value {color:#B37512 !important;}
+    .metric-card.blue .metric-value {color:#17689B !important;}
+    .metric-card.purple .metric-value {color:#6641C2 !important;}
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border:1px solid #DFE6EA !important;border-radius:17px !important;background:rgba(255,255,255,.94) !important;
+        box-shadow:0 10px 28px rgba(28,49,74,.055);
+    }
+
+    .chart-card-title {display:flex;align-items:center;gap:.48rem;font-family:Georgia,serif;font-weight:700;color:var(--ink) !important;font-size:1rem;margin:.05rem 0 -.35rem 0;}
+    .chart-dot {width:9px;height:9px;border-radius:50%;background:var(--teal);display:inline-block;}
 
     .stButton > button[kind="primary"] {
-        border: 0 !important;
-        background: linear-gradient(100deg, #0E6670 0%, #0B1F33 100%) !important;
-        color: white !important;
-        font-weight: 740 !important;
-        min-height: 3.15rem;
-        border-radius: 12px !important;
-        box-shadow: 0 11px 28px rgba(11,31,51,.18);
+        border:0 !important;background:linear-gradient(105deg,#0A8B8B 0%,#0B4D6C 55%,#0B2947 100%) !important;
+        color:white !important;font-weight:740 !important;min-height:3.2rem;border-radius:11px !important;
+        box-shadow:0 11px 26px rgba(11,53,76,.20);
     }
-    .stButton > button[kind="primary"]:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 15px 34px rgba(11,31,51,.24);
-        filter: brightness(1.03);
-    }
+    .stButton > button[kind="primary"]:hover {transform:translateY(-1px);box-shadow:0 15px 34px rgba(11,53,76,.25);filter:brightness(1.025);}
+    .stButton > button:not([kind="primary"]) {background:#FFFFFF !important;color:#26384E !important;border:1px solid #D6DEE4 !important;border-radius:10px !important;box-shadow:0 3px 10px rgba(28,49,74,.025);}
 
-    .stButton > button:not([kind="primary"]) {
-        background: #FFFFFF !important;
-        color: #263548 !important;
-        border: 1px solid #D7DDE3 !important;
-        border-radius: 10px !important;
-        box-shadow: 0 3px 10px rgba(11,31,51,.025);
-    }
+    .stTabs [data-baseweb="tab-list"] {gap:.25rem;border-bottom:1px solid #DDE4E8;}
+    .stTabs [data-baseweb="tab"] {border-radius:8px 8px 0 0;padding-left:.78rem;padding-right:.78rem;color:#415269 !important;font-weight:580;}
+    .stTabs [aria-selected="true"] {color:#0B6E77 !important;font-weight:760;background:linear-gradient(180deg,#F8FEFD,#EEF8F7) !important;}
 
-    .stTabs [data-baseweb="tab-list"] {
-        gap: .45rem;
-        border-bottom-color: #DDE3E6;
+    [data-testid="stSlider"] [role="slider"], div[data-baseweb="slider"] [role="slider"] {
+        background:#0B7A83 !important;border-color:#0B7A83 !important;box-shadow:0 0 0 3px rgba(11,122,131,.10) !important;
     }
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 10px 10px 0 0;
-        padding-left: .8rem;
-        padding-right: .8rem;
-        color: #445164 !important;
-        font-weight: 560;
-    }
-    .stTabs [aria-selected="true"] {
-        color: #0F6F78 !important;
-        font-weight: 740;
-    }
+    [data-testid="stSlider"] div[data-baseweb="slider"] > div > div, div[data-baseweb="slider"] > div > div > div {background-color:#0B7A83 !important;}
 
-    /* Premium teal replaces Streamlit's default red control accent. */
-    div[data-baseweb="slider"] [role="slider"] {
-        background-color: #0F6F78 !important;
-        border-color: #0F6F78 !important;
-        box-shadow: 0 0 0 3px rgba(15,111,120,.10) !important;
-    }
-    div[data-baseweb="slider"] > div > div {
-        background-color: #0F6F78 !important;
-    }
+    [data-testid="stExpander"] {border-color:#DCE4E9 !important;border-radius:12px !important;background:rgba(255,255,255,.92);box-shadow:0 4px 14px rgba(28,49,74,.025);}
+    [data-testid="stExpander"] summary, [data-testid="stExpander"] summary * {color:#26384E !important;}
 
-    [data-testid="stExpander"] {
-        border-color: rgba(11,31,51,.11) !important;
-        border-radius: 14px !important;
-        background: rgba(255,255,255,.86);
-        box-shadow: 0 4px 14px rgba(11,31,51,.025);
-    }
-    [data-testid="stExpander"] summary,
-    [data-testid="stExpander"] summary * {
-        color: #263548 !important;
-    }
-
-    .project-note {
-        border-left: 3px solid var(--gold);
-        padding: .75rem .95rem;
-        color: #3F4D5D !important;
-        background: #F8F5EC;
-        border-radius: 0 12px 12px 0;
-        margin: .65rem 0 1rem 0;
-    }
-
-    div[data-testid="stCodeBlock"] pre,
-    div[data-testid="stCodeBlock"] code {
-        background: #F3F5F6 !important;
-        color: #142234 !important;
-        border-color: rgba(11,31,51,.08) !important;
-    }
-
-    [data-testid="stDataFrame"] {
-        background: #FFFFFF !important;
-        border-radius: 12px;
-        box-shadow: 0 6px 18px rgba(11,31,51,.035);
-    }
-
-    [data-testid="stAlert"] {
-        background: #EEF5F5 !important;
-        color: #263548 !important;
-        border-color: rgba(15,111,120,.14) !important;
-    }
-
-    .footer-line {
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(11,31,51,.09);
-        color: #7B8490 !important;
-        font-size: .78rem;
-        text-align: center;
-    }
+    .project-note {border-left:3px solid var(--gold);padding:.75rem .95rem;color:#405269 !important;background:#FBF7ED;border-radius:0 12px 12px 0;margin:.65rem 0 1rem 0;}
+    div[data-testid="stCodeBlock"] pre, div[data-testid="stCodeBlock"] code {background:#F4F7F8 !important;color:#14263C !important;border-color:#DEE5EA !important;}
+    [data-testid="stDataFrame"] {background:#FFFFFF !important;border-radius:12px;box-shadow:0 6px 18px rgba(28,49,74,.035);}
+    [data-testid="stAlert"] {background:#EEF7F7 !important;color:#26384E !important;border-color:#D4E8E7 !important;}
+    .footer-line {margin-top:1.9rem;padding-top:.9rem;border-top:1px solid #E1E7EA;color:#7B8898 !important;font-size:.76rem;text-align:center;}
     </style>
     """,
     unsafe_allow_html=True,
@@ -346,11 +334,20 @@ st.markdown(
 # ---------------- Sidebar ----------------
 with st.sidebar:
     if LOGO_PATH.exists():
-        logo_left, logo_mid, logo_right = st.columns([0.160, 0.240, 0.160])
+        logo_left, logo_mid, logo_right = st.columns([0.24, 0.52, 0.24])
         with logo_mid:
             st.image(str(LOGO_PATH), use_container_width=True)
+    st.markdown(
+        """
+        <div class="sidebar-brand">
+          <div class="brand-main">NANOMAX GROUP</div>
+          <div class="brand-sub">HIT Shenzhen</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-    st.markdown("### Design parameters")
+    st.markdown("### ⚙ Design parameters")
     length = st.slider("DNA length (nt)", 100, 200, 150, 5)
     branches = st.slider("Target branches", 2, 5, 3, 1)
     loops = st.slider("Target loops", 3, 8, 5, 1)
@@ -474,29 +471,44 @@ with designer_tab:
         analysis = result["analysis"]
         params = st.session_state.get("nanomax_params", {})
 
-        st.markdown('<div class="section-kicker">NanoMax output</div>', unsafe_allow_html=True)
-        st.markdown('<div class="section-title">Generated candidate</div>', unsafe_allow_html=True)
-        if params:
-            seed_label = "random" if params.get("seed") is None else str(params.get("seed"))
-            st.caption(
-                f"Generated with length={params.get('length')} nt · branches={params.get('branches')} · "
-                f"loops={params.get('loops')} · GC target={params.get('gc_target')}% · seed={seed_label}"
+        with st.container(border=True):
+            st.markdown(
+                '<div class="result-heading"><div class="dna-mark">DNA</div><div class="result-title">Generated candidate</div></div>',
+                unsafe_allow_html=True,
             )
+            if params:
+                seed_label = "random" if params.get("seed") is None else str(params.get("seed"))
+                st.caption(
+                    f"Generated with length={params.get('length')} nt · branches={params.get('branches')} · "
+                    f"loops={params.get('loops')} · GC target={params.get('gc_target')}% · seed={seed_label}"
+                )
 
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            st.markdown("**DNA sequence (5′ → 3′)**")
-            st.code(sequence, language=None)
-        with col2:
-            st.markdown("**Target secondary structure (dot-bracket notation)**")
-            st.code(structure, language=None)
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                st.markdown("**DNA sequence (5′ → 3′)**")
+                st.markdown(f'<div class="sequence-box">{sequence}</div>', unsafe_allow_html=True)
+            with col2:
+                st.markdown("**Target secondary structure (dot-bracket notation)**")
+                st.markdown(f'<div class="sequence-box">{structure}</div>', unsafe_allow_html=True)
 
-        m1, m2, m3, m4, m5 = st.columns(5)
-        m1.metric("Length", f"{int(analysis['length'])} nt")
-        m2.metric("GC content", f"{analysis['gc_content']:.1f}%")
-        m3.metric("Asymmetry", f"{analysis['asymmetry_score']:.1f}%")
-        m4.metric("Paired bases", f"{analysis['pairing_percent']:.1f}%")
-        m5.metric("Stability score*", f"{analysis['stability_score']:.1f}")
+            st.markdown("<div style='height:.25rem'></div>", unsafe_allow_html=True)
+            m1, m2, m3, m4, m5 = st.columns(5)
+            metric_specs = [
+                (m1, "↔", "Length", f"{int(analysis['length'])} nt", ""),
+                (m2, "%", "GC content", f"{analysis['gc_content']:.1f}%", "teal"),
+                (m3, "◇", "Asymmetry", f"{analysis['asymmetry_score']:.1f}%", "gold"),
+                (m4, "⌁", "Paired bases", f"{analysis['pairing_percent']:.1f}%", "blue"),
+                (m5, "◈", "Stability score*", f"{analysis['stability_score']:.1f}", "purple"),
+            ]
+            for col, icon, label, value, cls in metric_specs:
+                with col:
+                    st.markdown(
+                        f"""<div class="metric-card {cls}">
+                              <div class="metric-icon">{icon}</div>
+                              <div><div class="metric-label">{label}</div><div class="metric-value">{value}</div></div>
+                            </div>""",
+                        unsafe_allow_html=True,
+                    )
 
         sequence_tab, structure_tab, plots_tab, method_tab = st.tabs(
             ["Sequence analysis", "Structure analysis", "Visualizations", "Method & defense notes"]
@@ -547,81 +559,59 @@ with designer_tab:
         with plots_tab:
             chart1, chart2 = st.columns(2)
             with chart1:
-                fig = px.bar(
-                    composition_df,
-                    x="Base",
-                    y="Percent",
-                    text="Percent",
-                    title="Base composition",
-                    color="Base",
-                    color_discrete_sequence=["#0F6F78", "#315C7A", "#B7924A", "#7A8F78"],
-                )
-                fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-                fig.update_layout(
-                    yaxis_title="Percentage",
-                    showlegend=False,
-                    template="plotly_white",
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="#FFFFFF",
-                    font=dict(color="#263548"),
-                    title_font=dict(color="#0B1F33"),
-                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-                )
-                st.plotly_chart(fig, use_container_width=True)
+                with st.container(border=True):
+                    st.markdown('<div class="chart-card-title"><span class="chart-dot"></span>Base composition</div>', unsafe_allow_html=True)
+                    fig = px.bar(
+                        composition_df,
+                        x="Base",
+                        y="Percent",
+                        text="Percent",
+                        color="Base",
+                        color_discrete_sequence=["#35B9B1", "#356A8C", "#D6A13D", "#8C7BEA"],
+                    )
+                    fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside", marker_line_width=0)
+                    fig.update_layout(
+                        yaxis_title="Percentage", showlegend=False, template="plotly_white", height=285,
+                        margin=dict(l=36, r=12, t=20, b=34), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF",
+                        font=dict(color="#405269", size=12),
+                        xaxis=dict(gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
+                        yaxis=dict(gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
+                    )
+                    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
             with chart2:
-                pair_df = pd.DataFrame(
-                    {
-                        "Pair type": ["GC", "AT"],
-                        "Count": [analysis["gc_pairs"], analysis["at_pairs"]],
-                    }
-                )
-                fig2 = px.bar(
-                    pair_df,
-                    x="Pair type",
-                    y="Count",
-                    text="Count",
-                    title="Paired-base composition",
-                    color="Pair type",
-                    color_discrete_sequence=["#0F6F78", "#B7924A"],
-                )
-                fig2.update_layout(
-                    showlegend=False,
-                    template="plotly_white",
-                    paper_bgcolor="rgba(0,0,0,0)",
-                    plot_bgcolor="#FFFFFF",
-                    font=dict(color="#263548"),
-                    title_font=dict(color="#0B1F33"),
-                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-                )
-                st.plotly_chart(fig2, use_container_width=True)
+                with st.container(border=True):
+                    st.markdown('<div class="chart-card-title"><span class="chart-dot"></span>Paired-base composition</div>', unsafe_allow_html=True)
+                    pair_df = pd.DataFrame({"Pair type": ["GC", "AT"], "Count": [analysis["gc_pairs"], analysis["at_pairs"]]})
+                    fig2 = px.bar(
+                        pair_df, x="Pair type", y="Count", text="Count", color="Pair type",
+                        color_discrete_sequence=["#24B8B3", "#C49335"],
+                    )
+                    fig2.update_traces(marker_line_width=0)
+                    fig2.update_layout(
+                        showlegend=False, template="plotly_white", height=285,
+                        margin=dict(l=36, r=12, t=20, b=34), paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF",
+                        font=dict(color="#405269", size=12),
+                        xaxis=dict(gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
+                        yaxis=dict(gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
+                    )
+                    st.plotly_chart(fig2, use_container_width=True, config={"displayModeBar": False})
 
             pairing_status = [1 if c in "()" else 0 for c in structure]
-            fig3 = go.Figure()
-            fig3.add_trace(
-                go.Scatter(
-                    x=list(range(1, len(structure) + 1)),
-                    y=pairing_status,
-                    mode="lines",
-                    name="Pairing status",
-                    line=dict(color="#0F6F78", width=2),
-                    fill="tozeroy",
-                    fillcolor="rgba(15,111,120,.10)",
+            with st.container(border=True):
+                st.markdown('<div class="chart-card-title"><span class="chart-dot"></span>Pairing distribution along the candidate</div>', unsafe_allow_html=True)
+                fig3 = go.Figure()
+                fig3.add_trace(go.Scatter(
+                    x=list(range(1, len(structure) + 1)), y=pairing_status, mode="lines", name="Pairing status",
+                    line=dict(color="#0B7A83", width=2), fill="tozeroy", fillcolor="rgba(11,122,131,.08)",
+                ))
+                fig3.update_layout(
+                    template="plotly_white", height=285, margin=dict(l=44, r=14, t=20, b=42),
+                    paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="#FFFFFF", font=dict(color="#405269", size=12),
+                    xaxis=dict(title="Nucleotide position", gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
+                    yaxis=dict(title="Paired (1) / unpaired (0)", tickmode="array", tickvals=[0, 1], gridcolor="#EDF1F3", linecolor="#CCD6DC", zeroline=False),
                 )
-            )
-            fig3.update_layout(
-                title="Pairing distribution along the candidate",
-                template="plotly_white",
-                paper_bgcolor="rgba(0,0,0,0)",
-                plot_bgcolor="#FFFFFF",
-                font=dict(color="#263548"),
-                title_font=dict(color="#0B1F33"),
-                xaxis=dict(title="Nucleotide position", gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-                yaxis=dict(title="Paired (1) / unpaired (0)", tickmode="array", tickvals=[0, 1], gridcolor="#E8ECEF", linecolor="#C8D0D8"),
-            )
-            st.plotly_chart(fig3, use_container_width=True)
+                st.plotly_chart(fig3, use_container_width=True, config={"displayModeBar": False})
 
         with method_tab:
             st.markdown(
@@ -726,7 +716,7 @@ with science_tab:
 st.markdown(
     """
     <div class="footer-line">
-    NanoMax Group · Harbin Institute of Technology, Shenzhen · Interactive research prototype
+    NanoMax Group · Harbin Institute of Technology, Shenzhen · Computational Aptamer Design Platform
     </div>
     """,
     unsafe_allow_html=True,
