@@ -241,19 +241,37 @@ st.markdown(
     div[data-testid="stMetricValue"] {color: #0B1F33 !important;}
     div[data-testid="stMetricLabel"] {color: #5E6A78 !important;}
 
-    .stButton > button[kind="primary"] {
-        border: 0 !important;
-        background: linear-gradient(100deg, #0E6670 0%, #0B1F33 100%) !important;
-        color: white !important;
-        font-weight: 740 !important;
-        min-height: 3.15rem;
-        border-radius: 12px !important;
-        box-shadow: 0 11px 28px rgba(11,31,51,.18);
-    }
-    .stButton > button[kind="primary"]:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 15px 34px rgba(11,31,51,.24);
-        filter: brightness(1.03);
+.stButton > button[kind="primary"] {
+    border: 0 !important;
+    background: linear-gradient(100deg, #0E6670 0%, #0B1F33 100%) !important;
+    color: #FFFFFF !important;
+    font-weight: 740 !important;
+    min-height: 3.15rem;
+    border-radius: 12px !important;
+    box-shadow: 0 11px 28px rgba(11,31,51,.18);
+}
+
+/* Force all text inside Generate button to white */
+.stButton > button[kind="primary"] *,
+.stButton > button[kind="primary"] p,
+.stButton > button[kind="primary"] span,
+.stButton > button[kind="primary"] div {
+    color: #FFFFFF !important;
+}
+
+.stButton > button[kind="primary"]:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 15px 34px rgba(11,31,51,.24);
+    filter: brightness(1.05);
+}
+
+/* Keep text white on hover too */
+.stButton > button[kind="primary"]:hover *,
+.stButton > button[kind="primary"]:hover p,
+.stButton > button[kind="primary"]:hover span,
+.stButton > button[kind="primary"]:hover div {
+    color: #FFFFFF !important;
+}
     }
 
     .stButton > button:not([kind="primary"]) {
