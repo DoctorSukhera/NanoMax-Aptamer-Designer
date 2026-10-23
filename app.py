@@ -390,8 +390,8 @@ with st.sidebar:
     st.markdown(
         """
         <div class="credit-card">
-          <div class="small">A Project by</div>
-          <b>Prof. Xingyi Ma</b><br>
+          <div class="small">Supervisor</div>
+          <b>Prof. Xingyi Ma (马兴毅)</b><br>
           <span>NanoMax Group, HIT Shenzhen</span>
           <div style="height:.75rem"></div>
           <div class="small">Design and Developed by</div>
