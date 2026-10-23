@@ -38,44 +38,38 @@ st.markdown(
     """
     <style>
     :root {
-        --cyan: #007f9e;
-        --cyan2: #005f78;
-        --violet: #5b50c8;
-        --bg: #f7f9fc;
-        --panel: #ffffff;
-        --line: rgba(0, 90, 120, 0.16);
-        --muted: #5f6b76;
-        --text: #111827;
+        --navy: #0B1F33;
+        --navy2: #16324A;
+        --teal: #0F6F78;
+        --teal-soft: #EAF4F4;
+        --gold: #B7924A;
+        --gold-soft: #F5EFE2;
+        --ivory: #F8F7F3;
+        --panel: #FFFFFF;
+        --line: rgba(11,31,51,.12);
+        --muted: #667085;
+        --text: #152235;
     }
 
-    html, body {
-        color-scheme: light;
-    }
+    html, body { color-scheme: light; }
 
     .stApp {
         background:
-            radial-gradient(circle at 16% 12%, rgba(0, 170, 210, .055), transparent 26%),
-            radial-gradient(circle at 88% 8%, rgba(91, 80, 200, .045), transparent 25%),
-            linear-gradient(180deg, #ffffff 0%, #f8fafc 65%, #f2f5f8 100%);
+            radial-gradient(circle at 12% 8%, rgba(15,111,120,.045), transparent 24%),
+            radial-gradient(circle at 88% 3%, rgba(183,146,74,.055), transparent 22%),
+            linear-gradient(180deg, #FCFBF8 0%, #F7F8F8 58%, #F1F4F6 100%);
         color: var(--text);
     }
 
-    .stApp p,
-    .stApp span,
-    .stApp label,
-    .stApp li,
-    .stApp h1,
-    .stApp h2,
-    .stApp h3,
-    .stApp h4,
-    .stApp h5,
-    .stApp h6 {
-        color: #172033;
+    .stApp p, .stApp span, .stApp label, .stApp li,
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+        color: var(--text);
     }
 
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #ffffff 0%, #f4f7fa 100%);
-        border-right: 1px solid rgba(0, 90, 120, .14);
+        background: linear-gradient(180deg, #FBFAF7 0%, #F2F4F5 100%);
+        border-right: 1px solid rgba(11,31,51,.10);
+        box-shadow: 8px 0 28px rgba(11,31,51,.025);
     }
 
     [data-testid="stSidebar"] p,
@@ -85,7 +79,7 @@ st.markdown(
     [data-testid="stSidebar"] h2,
     [data-testid="stSidebar"] h3,
     [data-testid="stSidebar"] h4 {
-        color: #172033 !important;
+        color: #182638 !important;
     }
 
     [data-testid="stSidebar"] img {
@@ -104,45 +98,47 @@ st.markdown(
     .hero-shell {
         position: relative;
         overflow: hidden;
-        padding: 2.05rem 2.15rem;
+        padding: 2.1rem 2.2rem;
         margin-bottom: 1.25rem;
         border-radius: 24px;
-        border: 1px solid rgba(0, 125, 155, .18);
+        border: 1px solid rgba(11,31,51,.10);
         background:
-            linear-gradient(120deg, rgba(255,255,255,.98), rgba(244,250,255,.98)),
-            radial-gradient(circle at 90% 20%, rgba(91,80,200,.08), transparent 35%);
-        box-shadow: 0 18px 45px rgba(30,60,80,.10), inset 0 0 40px rgba(0,150,190,.02);
+            radial-gradient(circle at 92% 0%, rgba(183,146,74,.075), transparent 26%),
+            linear-gradient(120deg, rgba(255,255,255,.995), rgba(242,247,248,.985));
+        box-shadow:
+            0 22px 55px rgba(11,31,51,.085),
+            inset 0 1px 0 rgba(255,255,255,.92);
     }
 
     .hero-shell::after {
         content: "";
         position: absolute;
-        width: 220px;
-        height: 220px;
-        right: -80px;
-        top: -110px;
+        width: 230px;
+        height: 230px;
+        right: -82px;
+        top: -116px;
         border-radius: 50%;
-        border: 1px solid rgba(0,125,155,.16);
-        box-shadow: 0 0 70px rgba(0,125,155,.06);
+        border: 1px solid rgba(15,111,120,.13);
+        box-shadow: 0 0 80px rgba(15,111,120,.04);
     }
 
     .eyebrow {
-        color: var(--cyan);
+        color: var(--teal) !important;
         text-transform: uppercase;
-        letter-spacing: .18em;
-        font-size: .76rem;
-        font-weight: 700;
-        margin-bottom: .55rem;
+        letter-spacing: .19em;
+        font-size: .75rem;
+        font-weight: 760;
+        margin-bottom: .58rem;
     }
 
     .hero-title {
         margin: 0;
         font-size: clamp(2.0rem, 3.25vw, 3.45rem);
         line-height: 1.04;
-        font-weight: 780;
+        font-weight: 790;
         letter-spacing: -.035em;
         white-space: nowrap;
-        background: linear-gradient(90deg, #111827, #005f78 55%, #5145a5);
+        background: linear-gradient(90deg, #0B1F33 0%, #173A4F 48%, #0F6F78 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -152,55 +148,59 @@ st.markdown(
     }
 
     .hero-sub {
-        margin-top: .9rem;
-        color: #4b5563 !important;
+        margin-top: .95rem;
+        color: #526173 !important;
         font-size: 1.04rem;
-        max-width: 850px;
+        max-width: 870px;
+        line-height: 1.55;
     }
 
-    .chip-row {margin-top: 1.15rem; display: flex; gap: .55rem; flex-wrap: wrap;}
+    .chip-row {margin-top: 1.2rem; display: flex; gap: .55rem; flex-wrap: wrap;}
     .chip {
         display: inline-block;
-        padding: .35rem .72rem;
+        padding: .36rem .74rem;
         border-radius: 999px;
-        border: 1px solid rgba(0,125,155,.22);
-        color: #005f78 !important;
-        background: #eefaff;
+        border: 1px solid rgba(15,111,120,.16);
+        color: #155C65 !important;
+        background: rgba(234,244,244,.78);
         font-size: .78rem;
+        font-weight: 560;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
     }
 
     .credit-card {
-        border: 1px solid rgba(0,125,155,.18);
+        border: 1px solid rgba(11,31,51,.10);
+        border-top: 3px solid var(--gold);
         border-radius: 16px;
         padding: .95rem 1rem;
         margin-top: 1.25rem;
-        background: linear-gradient(145deg, #ffffff, #f2f8fb);
-        box-shadow: 0 6px 20px rgba(20,60,80,.06);
+        background: linear-gradient(145deg, #FFFFFF 0%, #F8F6F0 100%);
+        box-shadow: 0 9px 24px rgba(11,31,51,.055);
         line-height: 1.55;
     }
 
     .sidebar-divider {
         height: 1px;
         margin: 1.25rem 0 .2rem 0;
-        background: linear-gradient(90deg, transparent, rgba(0,125,155,.24), transparent);
+        background: linear-gradient(90deg, transparent, rgba(183,146,74,.38), transparent);
     }
 
-    .credit-card b {color: #111827 !important;}
-    .credit-card .small {color: #6b7280 !important; font-size: .82rem;}
+    .credit-card b {color: #0B1F33 !important;}
+    .credit-card .small {color: #7A746A !important; font-size: .82rem;}
 
     .section-kicker {
-        color: var(--cyan) !important;
-        font-size: .76rem;
-        letter-spacing: .15em;
+        color: var(--gold) !important;
+        font-size: .75rem;
+        letter-spacing: .16em;
         text-transform: uppercase;
-        font-weight: 700;
+        font-weight: 760;
         margin-bottom: .2rem;
     }
 
     .section-title {
-        color: #111827 !important;
+        color: #0B1F33 !important;
         font-size: 1.65rem;
-        font-weight: 760;
+        font-weight: 780;
         margin: 0 0 .5rem 0;
     }
 
@@ -208,115 +208,132 @@ st.markdown(
         height: 100%;
         padding: 1.1rem 1.15rem;
         border-radius: 17px;
-        border: 1px solid rgba(0,125,155,.15);
-        background: #ffffff;
-        box-shadow: 0 8px 25px rgba(30,60,80,.07), inset 0 1px 0 rgba(255,255,255,.8);
+        border: 1px solid rgba(11,31,51,.095);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FBFCFC 100%);
+        box-shadow: 0 10px 28px rgba(11,31,51,.055), inset 0 1px 0 rgba(255,255,255,.95);
     }
-    .science-card h4 {margin: 0 0 .45rem 0; color: #111827 !important;}
-    .science-card p {margin: 0; color: #596575 !important; font-size: .9rem; line-height: 1.55;}
+    .science-card h4 {margin: 0 0 .45rem 0; color: #0B1F33 !important;}
+    .science-card p {margin: 0; color: #647184 !important; font-size: .9rem; line-height: 1.55;}
 
     .ready-card {
         text-align: center;
         padding: 2.2rem 1.4rem;
         margin-top: .8rem;
         border-radius: 20px;
-        border: 1px dashed rgba(0,125,155,.30);
-        background: linear-gradient(180deg, #ffffff, #f3f9fc);
-        box-shadow: 0 8px 26px rgba(30,60,80,.055);
+        border: 1px solid rgba(15,111,120,.15);
+        background:
+            radial-gradient(circle at 50% 0%, rgba(183,146,74,.055), transparent 28%),
+            linear-gradient(180deg, #FFFFFF, #F6F9F9);
+        box-shadow: 0 12px 30px rgba(11,31,51,.045);
     }
     .ready-icon {font-size: 2.1rem; margin-bottom: .45rem;}
-    .ready-card h3 {margin: .2rem 0 .35rem 0; color: #111827 !important;}
-    .ready-card p {color: #607080 !important; margin: 0 auto; max-width: 720px;}
+    .ready-card h3 {margin: .2rem 0 .35rem 0; color: #0B1F33 !important;}
+    .ready-card p {color: #667085 !important; margin: 0 auto; max-width: 720px;}
 
     div[data-testid="stMetric"] {
-        border: 1px solid rgba(0,125,155,.16);
-        background: #ffffff;
-        padding: .8rem .95rem;
+        border: 1px solid rgba(11,31,51,.10);
+        border-top: 2px solid rgba(183,146,74,.72);
+        background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFB 100%);
+        padding: .82rem .98rem;
         border-radius: 15px;
-        box-shadow: 0 6px 20px rgba(30,60,80,.06);
+        box-shadow: 0 8px 22px rgba(11,31,51,.05);
     }
-
-    div[data-testid="stMetricValue"] {color: #111827 !important;}
-    div[data-testid="stMetricLabel"] {color: #4b5563 !important;}
+    div[data-testid="stMetricValue"] {color: #0B1F33 !important;}
+    div[data-testid="stMetricLabel"] {color: #5E6A78 !important;}
 
     .stButton > button[kind="primary"] {
         border: 0 !important;
-        background: linear-gradient(100deg, #00a9c9, #6761e8) !important;
+        background: linear-gradient(100deg, #0E6670 0%, #0B1F33 100%) !important;
         color: white !important;
-        font-weight: 730 !important;
+        font-weight: 740 !important;
         min-height: 3.15rem;
         border-radius: 12px !important;
-        box-shadow: 0 10px 28px rgba(0,150,190,.18);
+        box-shadow: 0 11px 28px rgba(11,31,51,.18);
     }
     .stButton > button[kind="primary"]:hover {
         transform: translateY(-1px);
-        box-shadow: 0 14px 34px rgba(0,150,190,.24);
+        box-shadow: 0 15px 34px rgba(11,31,51,.24);
+        filter: brightness(1.03);
     }
 
     .stButton > button:not([kind="primary"]) {
-        background: #ffffff !important;
-        color: #1f2937 !important;
-        border: 1px solid #ccd5df !important;
+        background: #FFFFFF !important;
+        color: #263548 !important;
+        border: 1px solid #D7DDE3 !important;
         border-radius: 10px !important;
+        box-shadow: 0 3px 10px rgba(11,31,51,.025);
     }
 
     .stTabs [data-baseweb="tab-list"] {
         gap: .45rem;
-        border-bottom-color: #dbe3ea;
+        border-bottom-color: #DDE3E6;
     }
     .stTabs [data-baseweb="tab"] {
         border-radius: 10px 10px 0 0;
         padding-left: .8rem;
         padding-right: .8rem;
-        color: #344054 !important;
+        color: #445164 !important;
+        font-weight: 560;
     }
     .stTabs [aria-selected="true"] {
-        color: #005f78 !important;
-        font-weight: 700;
+        color: #0F6F78 !important;
+        font-weight: 740;
+    }
+
+    /* Premium teal replaces Streamlit's default red control accent. */
+    div[data-baseweb="slider"] [role="slider"] {
+        background-color: #0F6F78 !important;
+        border-color: #0F6F78 !important;
+        box-shadow: 0 0 0 3px rgba(15,111,120,.10) !important;
+    }
+    div[data-baseweb="slider"] > div > div {
+        background-color: #0F6F78 !important;
     }
 
     [data-testid="stExpander"] {
-        border-color: rgba(0,125,155,.16) !important;
+        border-color: rgba(11,31,51,.11) !important;
         border-radius: 14px !important;
-        background: #ffffff;
+        background: rgba(255,255,255,.86);
+        box-shadow: 0 4px 14px rgba(11,31,51,.025);
     }
-
     [data-testid="stExpander"] summary,
     [data-testid="stExpander"] summary * {
-        color: #243041 !important;
+        color: #263548 !important;
     }
 
     .project-note {
-        border-left: 3px solid var(--cyan);
-        padding: .7rem .9rem;
-        color: #374151 !important;
-        background: #f2f9fc;
+        border-left: 3px solid var(--gold);
+        padding: .75rem .95rem;
+        color: #3F4D5D !important;
+        background: #F8F5EC;
         border-radius: 0 12px 12px 0;
         margin: .65rem 0 1rem 0;
     }
 
     div[data-testid="stCodeBlock"] pre,
     div[data-testid="stCodeBlock"] code {
-        background: #f4f7fa !important;
-        color: #0f172a !important;
+        background: #F3F5F6 !important;
+        color: #142234 !important;
+        border-color: rgba(11,31,51,.08) !important;
     }
 
     [data-testid="stDataFrame"] {
-        background: #ffffff !important;
+        background: #FFFFFF !important;
         border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(11,31,51,.035);
     }
 
     [data-testid="stAlert"] {
-        background: #eef7fb !important;
-        color: #1f2937 !important;
-        border-color: rgba(0,125,155,.16) !important;
+        background: #EEF5F5 !important;
+        color: #263548 !important;
+        border-color: rgba(15,111,120,.14) !important;
     }
 
     .footer-line {
         margin-top: 2rem;
         padding-top: 1rem;
-        border-top: 1px solid rgba(0,125,155,.12);
-        color: #6b7280 !important;
+        border-top: 1px solid rgba(11,31,51,.09);
+        color: #7B8490 !important;
         font-size: .78rem;
         text-align: center;
     }
@@ -537,10 +554,20 @@ with designer_tab:
                     text="Percent",
                     title="Base composition",
                     color="Base",
-                    color_discrete_sequence=["#35e7ff", "#6f7dff", "#b987ff", "#69ffc9"],
+                    color_discrete_sequence=["#0F6F78", "#315C7A", "#B7924A", "#7A8F78"],
                 )
                 fig.update_traces(texttemplate="%{text:.1f}%", textposition="outside")
-                fig.update_layout(yaxis_title="Percentage", showlegend=False, template="plotly_white")
+                fig.update_layout(
+                    yaxis_title="Percentage",
+                    showlegend=False,
+                    template="plotly_white",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#FFFFFF",
+                    font=dict(color="#263548"),
+                    title_font=dict(color="#0B1F33"),
+                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                )
                 st.plotly_chart(fig, use_container_width=True)
 
             with chart2:
@@ -557,9 +584,18 @@ with designer_tab:
                     text="Count",
                     title="Paired-base composition",
                     color="Pair type",
-                    color_discrete_sequence=["#35e7ff", "#8b5cf6"],
+                    color_discrete_sequence=["#0F6F78", "#B7924A"],
                 )
-                fig2.update_layout(showlegend=False, template="plotly_white")
+                fig2.update_layout(
+                    showlegend=False,
+                    template="plotly_white",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                    plot_bgcolor="#FFFFFF",
+                    font=dict(color="#263548"),
+                    title_font=dict(color="#0B1F33"),
+                    xaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                    yaxis=dict(gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                )
                 st.plotly_chart(fig2, use_container_width=True)
 
             pairing_status = [1 if c in "()" else 0 for c in structure]
@@ -570,17 +606,20 @@ with designer_tab:
                     y=pairing_status,
                     mode="lines",
                     name="Pairing status",
-                    line=dict(color="#35e7ff", width=2),
+                    line=dict(color="#0F6F78", width=2),
                     fill="tozeroy",
-                    fillcolor="rgba(53,231,255,.10)",
+                    fillcolor="rgba(15,111,120,.10)",
                 )
             )
             fig3.update_layout(
                 title="Pairing distribution along the candidate",
-                xaxis_title="Nucleotide position",
-                yaxis_title="Paired (1) / unpaired (0)",
-                yaxis=dict(tickmode="array", tickvals=[0, 1]),
                 template="plotly_white",
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="#FFFFFF",
+                font=dict(color="#263548"),
+                title_font=dict(color="#0B1F33"),
+                xaxis=dict(title="Nucleotide position", gridcolor="#E8ECEF", linecolor="#C8D0D8"),
+                yaxis=dict(title="Paired (1) / unpaired (0)", tickmode="array", tickvals=[0, 1], gridcolor="#E8ECEF", linecolor="#C8D0D8"),
             )
             st.plotly_chart(fig3, use_container_width=True)
 
